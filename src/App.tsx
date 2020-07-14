@@ -1,10 +1,11 @@
 import React from 'react'
 import './App.css'
+import Calendar from './components/Calendar'
 
 const App = () => {
   return (
     <div className="App">
-      <header className="App-header">uCalendar app</header>
+      <Calendar />
     </div>
   )
 }
