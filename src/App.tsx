@@ -1,13 +1,8 @@
 import React from 'react'
-import './App.css'
-import Calendar from './components/Calendar'
+import Table from './components/table'
 
 const App = () => {
-  return (
-    <div className="App">
-      <Calendar />
-    </div>
-  )
+  return <Table />
 }
 
 export default App

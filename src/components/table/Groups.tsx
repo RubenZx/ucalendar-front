@@ -8,9 +8,11 @@ const Groups = ({ groups, type }: { groups: Group[]; type: string }) => (
       <Grid item key={index} style={{ marginBottom: '8px' }}>
         <Grid container justify="center">
           <Grid item xs={12} style={{ paddingBottom: '5px' }}>
-            <Typography>
-              {group} - Clases de {type}
-            </Typography>
+            <Grid container justify="center">
+              <Typography>
+                {group} - Clases de {type}
+              </Typography>
+            </Grid>
           </Grid>
           <Grid item xs={12} style={{ paddingTop: '0px' }}>
             <Grid

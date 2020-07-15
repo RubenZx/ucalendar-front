@@ -1,4 +1,4 @@
-import { colors } from '../components/proba/types'
+import { colors } from '../components/table/types'
 
 const subjectColor = {
   CAL: { bgc: 'rgb(245, 221, 221)', abrev: 'rgb(209, 52, 43)' },
