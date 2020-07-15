@@ -3,7 +3,7 @@ import React from 'react'
 import { Draggable } from 'react-beautiful-dnd'
 import styled from 'styled-components'
 import Groups from './Groups'
-import { SubjectProps } from './types'
+import { Subject as SubjectProps } from './types'
 
 const StyledPaper = styled(Paper)`
   background-color: ${(props) => props.color}!important;
@@ -53,7 +53,7 @@ const Subject = ({
 const Subjects = ({ items }: { items: SubjectProps[] }) => (
   <>
     {items.map((item, index) => (
-      <div style={{ padding: '10px' }} key={index}>
+      <div key={index}>
         <Subject {...item} index={index} />
       </div>
     ))}

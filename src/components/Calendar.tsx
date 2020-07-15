@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import Subjects from './subject'
-import { SubjectProps } from './subject/types'
+import { Subject as SubjectProps } from './subject/types'
 
 const data = [
   {

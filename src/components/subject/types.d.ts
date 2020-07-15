@@ -1,4 +1,4 @@
-export interface SubjectProps {
+export interface Subject {
   id: string
   title: string
   color: string
