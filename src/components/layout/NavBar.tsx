@@ -4,7 +4,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const StyledAppBar = styled(AppBar)`
-  background-color: ${({ theme }) => theme.palette.secondary.main};
+  background-color: ${({ theme }) => theme.palette.primary.main};
 `
 
 const StyledToolbar = styled(Toolbar)`

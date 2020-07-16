@@ -3,6 +3,7 @@ import { colors } from '../components/table/types'
 const subjectColor = {
   CAL: { bgc: 'rgb(245, 221, 221)', abrev: 'rgb(209, 52, 43)' },
   IP: { bgc: 'rgb(231, 240, 228)', abrev: 'rgb(103, 171, 87)' },
+  IG: { bgc: 'rgb(226, 235, 243)', abrev: 'rgb(74, 125, 179)' },
   MD: { bgc: 'rgb(237, 228, 240)', abrev: 'rgb(142, 82, 158)' },
 } as colors
 

@@ -1,8 +1,17 @@
-import { Divider, Grid, Paper } from '@material-ui/core'
+import { Button, Divider, Grid, Paper } from '@material-ui/core'
+import RestorePageIcon from '@material-ui/icons/RestorePage'
 import React, { useState } from 'react'
 import { DragDropContext, DropResult } from 'react-beautiful-dnd'
+import styled from 'styled-components'
 import Column from './Column'
 import initialData from './data'
+
+const StyledPaper = styled(Paper)`
+  margin: 8px;
+  padding: 8px;
+  display: flex;
+  flex: 1;
+`
 
 const Table = () => {
   const [data, setData] = useState(initialData)
@@ -59,29 +68,48 @@ const Table = () => {
     }
   }
 
+  const resetData = () => {
+    setData(initialData)
+  }
+
   return (
-    <Paper elevation={2} style={{ margin: '8px', padding: '8px' }}>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Grid container justify="space-around">
-          {data.columnOrder.map((columnId) => {
-            const column = data.columns[columnId]
-            const subjects = column.subjectsIds.map(
-              (subjectId) => data.subjects[subjectId],
-            )
-            return (
-              <Grid
-                key={column.id}
-                item
-                style={{ display: 'flex', flexGrow: 1 }}
-              >
-                <Column column={column} subjects={subjects} />
-                {column.id === 'column-0' && <Divider orientation="vertical" />}
-              </Grid>
-            )
-          })}
-        </Grid>
-      </DragDropContext>
-    </Paper>
+    <>
+      <StyledPaper elevation={2}>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Grid container justify="space-around">
+            {data.columnOrder.map((columnId) => {
+              const column = data.columns[columnId]
+              const subjects = column.subjectsIds.map(
+                (subjectId) => data.subjects[subjectId],
+              )
+              return (
+                <Grid
+                  key={column.id}
+                  item
+                  style={{ display: 'flex', flexGrow: 1 }}
+                >
+                  <Column column={column} subjects={subjects} />
+                  {column.id === 'column-0' && (
+                    <Divider orientation="vertical" />
+                  )}
+                </Grid>
+              )
+            })}
+          </Grid>
+        </DragDropContext>
+      </StyledPaper>
+
+      <Grid container justify="flex-end" style={{ padding: '8px' }}>
+        <Button
+          variant="contained"
+          startIcon={<RestorePageIcon />}
+          color="primary"
+          onClick={resetData}
+        >
+          Reiniciar
+        </Button>
+      </Grid>
+    </>
   )
 }
 
