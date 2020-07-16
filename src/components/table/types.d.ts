@@ -24,10 +24,11 @@ export interface Subject {
 
 export interface SubjectContent {
   title: string
-  hours: string
+  startHour: string
+  endHour: string
+  dayOfTheWeek: number
   classRoom: string
   type: string
-  dayOfTheWeek: number
   groups: Group[]
 }
 

@@ -13,6 +13,9 @@ const SubjectList = styled.div<{ isDraggingOver: boolean }>`
     isDraggingOver ? '#f0f0f0' : 'inherit'};
   flex-grow: 1;
   min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `
 
 const Column = ({

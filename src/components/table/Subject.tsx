@@ -43,7 +43,7 @@ const Subject = ({
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Grid container justify="space-between">
-                <Typography>{subject.hours}</Typography>
+                <Typography>{`${subject.startHour} a ${subject.endHour}`}</Typography>
                 <Typography>Aula {subject.classRoom}</Typography>
               </Grid>
             </Grid>

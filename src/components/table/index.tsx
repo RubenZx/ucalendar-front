@@ -75,12 +75,7 @@ const Table = () => {
                 style={{ display: 'flex', flexGrow: 1 }}
               >
                 <Column column={column} subjects={subjects} />
-                {column.id === 'column-0' && (
-                  <Divider
-                    orientation="vertical"
-                    style={{ marginLeft: '12px' }}
-                  />
-                )}
+                {column.id === 'column-0' && <Divider orientation="vertical" />}
               </Grid>
             )
           })}

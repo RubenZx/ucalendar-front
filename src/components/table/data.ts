@@ -6,7 +6,8 @@ const initialData: Data = {
       id: 'subject-1',
       content: {
         title: 'MD',
-        hours: '08:30 a 10:00',
+        startHour: '08:30',
+        endHour: '10:00',
         classRoom: 'B04',
         type: 'teoria',
         dayOfTheWeek: 1,
@@ -58,7 +59,8 @@ const initialData: Data = {
       id: 'subject-2',
       content: {
         title: 'CAL',
-        hours: '10:00 a 11:30',
+        startHour: '10:00',
+        endHour: '11:30',
         classRoom: 'B04',
         type: 'teoria',
         dayOfTheWeek: 1,
@@ -90,7 +92,8 @@ const initialData: Data = {
       id: 'subject-3',
       content: {
         title: 'IP',
-        hours: '11:30 a 13:00',
+        startHour: '11:30',
+        endHour: '13:00',
         classRoom: 'B04',
         type: 'teoria',
         dayOfTheWeek: 2,
