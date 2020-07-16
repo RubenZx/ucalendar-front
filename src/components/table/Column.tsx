@@ -10,7 +10,7 @@ const SubjectList = styled.div<{ isDraggingOver: boolean }>`
   border-radius: 8px;
   transition: background-color 0.2s ease;
   background-color: ${({ isDraggingOver }) =>
-    isDraggingOver ? '#f0f0f0' : 'white'};
+    isDraggingOver ? '#f0f0f0' : 'inherit'};
   flex-grow: 1;
   min-height: 200px;
 `

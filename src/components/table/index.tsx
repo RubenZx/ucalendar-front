@@ -1,13 +1,13 @@
-import { Divider, Grid } from '@material-ui/core'
+import { Divider, Grid, Paper } from '@material-ui/core'
 import React, { useState } from 'react'
-import { DragDropContext } from 'react-beautiful-dnd'
+import { DragDropContext, DropResult } from 'react-beautiful-dnd'
 import Column from './Column'
 import initialData from './data'
 
 const Table = () => {
   const [data, setData] = useState(initialData)
 
-  const onDragEnd = (result: any) => {
+  const onDragEnd = (result: DropResult) => {
     const { destination, source, draggableId } = result
 
     if (
@@ -60,22 +60,33 @@ const Table = () => {
   }
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <Grid container justify="space-around">
-        {data.columnOrder.map((columnId) => {
-          const column = data.columns[columnId]
-          const subjects = column.subjectsIds.map(
-            (subjectId) => data.subjects[subjectId],
-          )
-          return (
-            <Grid key={column.id} item style={{ display: 'flex', flexGrow: 1 }}>
-              <Column column={column} subjects={subjects} />
-              {column.id === 'column-0' && <Divider orientation="vertical" />}
-            </Grid>
-          )
-        })}
-      </Grid>
-    </DragDropContext>
+    <Paper elevation={2} style={{ margin: '8px', padding: '8px' }}>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Grid container justify="space-around">
+          {data.columnOrder.map((columnId) => {
+            const column = data.columns[columnId]
+            const subjects = column.subjectsIds.map(
+              (subjectId) => data.subjects[subjectId],
+            )
+            return (
+              <Grid
+                key={column.id}
+                item
+                style={{ display: 'flex', flexGrow: 1 }}
+              >
+                <Column column={column} subjects={subjects} />
+                {column.id === 'column-0' && (
+                  <Divider
+                    orientation="vertical"
+                    style={{ marginLeft: '12px' }}
+                  />
+                )}
+              </Grid>
+            )
+          })}
+        </Grid>
+      </DragDropContext>
+    </Paper>
   )
 }
 
