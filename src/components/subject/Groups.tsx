@@ -1,6 +1,6 @@
 import { Grid, Typography } from '@material-ui/core'
 import React from 'react'
-import { Group } from './types'
+import { Group } from '../../types/table'
 
 const Groups = ({ groups, type }: { groups: Group[]; type: string }) => (
   <Grid container justify="center">

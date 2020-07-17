@@ -1,0 +1,97 @@
+{
+  "Lunes": [
+    {
+      "title": "MD",
+      "startHour": "08:30",
+      "endHour": "10:00",
+      "classRoom": "B04",
+      "type": "teoria",
+      "dayOfTheWeek": 1,
+      "color": {
+        "bgc": "rgb(237, 228, 240)",
+        "abrev": "rgb(142, 82, 158)"
+      },
+      "groups": [
+        {
+          "group": "A1",
+          "weeks": [
+            true,
+            true,
+            false,
+            true,
+            true,
+            true,
+            false,
+            false,
+            true,
+            true,
+            true,
+            false,
+            false,
+            false,
+            false
+          ]
+        },
+        {
+          "group": "A2",
+          "weeks": [
+            false,
+            false,
+            true,
+            false,
+            false,
+            false,
+            true,
+            true,
+            false,
+            false,
+            false,
+            true,
+            true,
+            true,
+            true
+          ]
+        }
+      ]
+    }
+  ],
+  "Martes": [
+    {
+      "title": "CAL",
+      "startHour": "10:00",
+      "endHour": "11:30",
+      "classRoom": "B04",
+      "type": "teoria",
+      "dayOfTheWeek": 1,
+      "color": {
+        "bgc": "rgb(245, 221, 221)",
+        "abrev": "rgb(209, 52, 43)"
+      },
+      "groups": [
+        {
+          "group": "A1",
+          "weeks": [
+            true,
+            true,
+            false,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false,
+            false,
+            false,
+            false,
+            false
+          ]
+        }
+      ]
+    }
+  ],
+  "Miércoles": [],
+  "Jueves": [],
+  "Viernes": []
+}

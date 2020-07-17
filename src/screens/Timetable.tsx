@@ -1,5 +1,7 @@
 import { Grid } from '@material-ui/core'
 import React from 'react'
+import subjects from '../assets/subjects.json'
+import Table from '../components/Table'
 import Title from '../components/Title'
 import routes from '../routes/routes'
 
@@ -16,7 +18,7 @@ const Timetable = () => {
         />
       </Grid>
       <Grid item xs={12}>
-        {/* TODO: add <Table/> here */}
+        <Table tableData={subjects} />
       </Grid>
     </Grid>
   )
