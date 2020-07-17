@@ -1,4 +1,5 @@
-import { createMuiTheme } from '@material-ui/core'
+import { createMuiTheme, Theme } from '@material-ui/core'
+import baseStyled, { ThemedStyledInterface } from 'styled-components'
 
 const theme = createMuiTheme({
   palette: {
@@ -8,4 +9,5 @@ const theme = createMuiTheme({
   },
 })
 
+export const styled = baseStyled as ThemedStyledInterface<Theme>
 export default theme

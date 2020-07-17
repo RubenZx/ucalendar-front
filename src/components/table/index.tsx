@@ -2,7 +2,7 @@ import { Button, Divider, Grid, Paper } from '@material-ui/core'
 import RestorePageIcon from '@material-ui/icons/RestorePage'
 import React, { useState } from 'react'
 import { DragDropContext, DropResult } from 'react-beautiful-dnd'
-import styled from 'styled-components'
+import { styled } from '../../theme'
 import Column from './Column'
 import initialData from './data'
 

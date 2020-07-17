@@ -1,7 +1,7 @@
 import { Grid, Typography } from '@material-ui/core'
 import React from 'react'
 import { Droppable } from 'react-beautiful-dnd'
-import styled from 'styled-components'
+import { styled } from '../../theme'
 import Subject from './Subject'
 import { Column as ColumnType, Subject as SubjectType } from './types'
 

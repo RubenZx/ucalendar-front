@@ -1,7 +1,7 @@
 import { Grid, Paper, Typography } from '@material-ui/core'
 import React from 'react'
 import { Draggable } from 'react-beautiful-dnd'
-import styled from 'styled-components'
+import { styled } from '../../theme'
 import { subjectAbrevColor, subjectBgColor } from '../../utils/colors'
 import Groups from './Groups'
 import { SubjectContent } from './types'
