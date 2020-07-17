@@ -19,7 +19,7 @@ const Title = ({ title, subtitle, withButton, buttonType, to }: TitleProps) => {
         <Typography variant="h6">{title}</Typography>
         <Typography variant="body1">{subtitle}</Typography>
       </Grid>
-      {withButton && (
+      {withButton && to && (
         <Grid item xs={6}>
           <Grid container justify="flex-end">
             {/* Will be disabled when you have take all of your subjects */}
@@ -27,12 +27,12 @@ const Title = ({ title, subtitle, withButton, buttonType, to }: TitleProps) => {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={() => to && history.push(to)}
+                onClick={() => history.push(to)}
               >
                 Añadir nueva asignatura
               </Button>
             ) : (
-              <IconButton onClick={() => history.goBack()}>
+              <IconButton onClick={() => history.push(to)}>
                 <CloseIcon />
               </IconButton>
             )}
