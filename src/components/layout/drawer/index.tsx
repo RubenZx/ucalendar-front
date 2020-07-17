@@ -1,7 +1,7 @@
 import {
+  Box,
   createStyles,
   Drawer,
-  Grid,
   List,
   makeStyles,
   Theme,
@@ -47,14 +47,15 @@ const MyDrawer = () => {
       }}
       anchor="left"
     >
-      <Grid
-        container
-        justify="center"
+      <Box
+        display="flex"
+        justifyContent="center"
         alignItems="center"
-        style={{ minHeight: '80px', marginTop: '10px' }}
+        minHeight="80px"
+        style={{ marginTop: '10px' }}
       >
         <img width={180} src={Logo} alt="logoUCA" />
-      </Grid>
+      </Box>
       <Divider />
       <List>
         {MenuElements.map(({ text, icon, route }) => (

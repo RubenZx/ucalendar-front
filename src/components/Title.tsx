@@ -1,7 +1,12 @@
-import { Button, Grid, IconButton, Typography } from '@material-ui/core'
+import { Box, Button, IconButton, Typography } from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close'
 import React from 'react'
 import { useHistory } from 'react-router'
+import { styled } from '../theme'
+
+const StyledBox = styled(Box)`
+  margin-bottom: 25px;
+`
 
 interface TitleProps {
   title: string
@@ -14,32 +19,35 @@ interface TitleProps {
 const Title = ({ title, subtitle, withButton, buttonType, to }: TitleProps) => {
   const history = useHistory()
   return (
-    <Grid container justify="space-between" alignItems="flex-end">
-      <Grid item xs={6}>
+    <StyledBox
+      display="flex"
+      justifyContent="space-between"
+      alignItems="flex-end"
+      width="100%"
+    >
+      <Box>
         <Typography variant="h6">{title}</Typography>
         <Typography variant="body1">{subtitle}</Typography>
-      </Grid>
+      </Box>
       {withButton && to && (
-        <Grid item xs={6}>
-          <Grid container justify="flex-end">
-            {/* Will be disabled when you have take all of your subjects */}
-            {buttonType === 'add' ? (
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => history.push(to)}
-              >
-                Añadir nueva asignatura
-              </Button>
-            ) : (
-              <IconButton onClick={() => history.push(to)}>
-                <CloseIcon />
-              </IconButton>
-            )}
-          </Grid>
-        </Grid>
+        <Box display="flex" justifyContent="flex-end">
+          {/* Will be disabled when you have take all of your subjects */}
+          {buttonType === 'add' ? (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => history.push(to)}
+            >
+              Añadir nueva asignatura
+            </Button>
+          ) : (
+            <IconButton onClick={() => history.push(to)}>
+              <CloseIcon />
+            </IconButton>
+          )}
+        </Box>
       )}
-    </Grid>
+    </StyledBox>
   )
 }
 
