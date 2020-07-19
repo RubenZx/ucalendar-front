@@ -1,7 +1,7 @@
 import { Box, Button, IconButton, Typography } from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close'
 import React from 'react'
-import { useHistory } from 'react-router'
+import { useHistory } from 'react-router-dom'
 import { styled } from '../theme'
 
 const StyledBox = styled(Box)`

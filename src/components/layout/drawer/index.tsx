@@ -13,7 +13,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday'
 import SettingsIcon from '@material-ui/icons/Settings'
 import React from 'react'
-import { useHistory } from 'react-router'
+import { useHistory } from 'react-router-dom'
 import Logo from '../../../assets/logo.gif'
 import { styled } from '../../../theme'
 
