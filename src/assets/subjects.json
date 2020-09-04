@@ -1,7 +1,8 @@
 {
   "Lunes": [
     {
-      "title": "MD",
+      "abrev": "MD",
+      "name": "Matemática discreta",
       "startHour": "08:30",
       "endHour": "10:00",
       "classRoom": "B04",
@@ -57,7 +58,8 @@
   ],
   "Martes": [
     {
-      "title": "CAL",
+      "abrev": "CAL",
+      "name": "Cálculo",
       "startHour": "10:00",
       "endHour": "11:30",
       "classRoom": "B04",

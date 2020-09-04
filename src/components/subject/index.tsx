@@ -28,7 +28,7 @@ const Subject = ({ subject }: { subject: SubjectType }) => {
         {/* Abrev. of the subject */}
         <Box display="flex" justifyContent="center">
           <StyledTypography abrevcolor={subject.color.abrev}>
-            {subject.title}
+            {subject.abrev}
           </StyledTypography>
         </Box>
         {/* Groups with weeks */}

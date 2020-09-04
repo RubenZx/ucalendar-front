@@ -1,7 +1,7 @@
 import { Box, Dialog, DialogTitle } from '@material-ui/core'
 import React from 'react'
 import Logo from '../assets/logo.gif'
-import LoginForm from '../components/LoginForm'
+import LoginForm from '../components/forms/Login'
 
 const Login = () => {
   return (

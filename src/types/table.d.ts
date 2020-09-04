@@ -7,7 +7,8 @@ export interface Data {
 }
 
 export interface Subject {
-  title: string
+  name: string
+  abrev: string
   startHour: string
   endHour: string
   classRoom: string
