@@ -23,6 +23,8 @@ export interface TimetableItem {
   weeks: boolean[]
 }
 
+export type UpdateTimetableItem = Partial<TimetableItem>
+
 export interface TimetableItemRelations {
   classRoom: Generic
   classRoomId: number

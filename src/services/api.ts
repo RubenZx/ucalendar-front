@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { TimetableItem } from './types'
+import { TimetableItem, UpdateTimetableItem } from './types'
 
 export const api = axios.create({ baseURL: 'http://localhost:3000/' })
 
@@ -28,5 +28,13 @@ export const createTimetableItem = async (
   subjectId: string,
 ) => {
   const res = await api.post(`subjects/${subjectId}/timetable-items`, data)
+  return res.data
+}
+
+export const updateTimeTableItem = async (
+  data: UpdateTimetableItem,
+  itemId: number,
+) => {
+  const res = await api.put('timetable-items/' + itemId, data)
   return res.data
 }
