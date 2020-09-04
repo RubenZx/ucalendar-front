@@ -30,6 +30,13 @@ const StyledDrawer = styled(Drawer)`
   flex-shrink: 0;
 `
 
+const StyledImg = styled.img`
+  width: 150pt;
+  :hover {
+    cursor: pointer;
+  }
+`
+
 const MenuElements = [
   { text: 'Horario', icon: <CalendarTodayIcon />, route: '/' },
   { text: 'Ajustes', icon: <SettingsIcon />, route: '/settings' },
@@ -54,7 +61,7 @@ const MyDrawer = () => {
         minHeight="80px"
         style={{ marginTop: '10px' }}
       >
-        <img width={180} src={Logo} alt="logoUCA" />
+        <StyledImg onClick={() => history.push('/')} src={Logo} alt="logoUCA" />
       </Box>
       <Divider />
       <List>
