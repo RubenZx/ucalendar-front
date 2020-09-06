@@ -5,12 +5,11 @@ import {
   CardMedia,
   Typography,
 } from '@material-ui/core'
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { useHistory } from 'react-router-dom'
-
 interface newItemProps {
   img: string
-  title: string
+  title: ReactNode
   body: string
   to: string
 }
@@ -21,9 +20,9 @@ const NewItemCard = ({ img, title, body, to }: newItemProps) => {
   return (
     <Card style={{ maxWidth: '345px' }}>
       <CardActionArea onClick={() => history.push(to)}>
-        <CardMedia image={img} style={{ height: '140px' }} title={title} />
+        <CardMedia image={img} style={{ height: '140px' }} />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
+          <Typography gutterBottom variant="h6" component="h2">
             {title}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">

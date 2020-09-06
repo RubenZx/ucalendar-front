@@ -29,7 +29,6 @@ const TimetableItem = ({
     <StyledPaper
       elevation={2}
       border={border ? 'true' : 'false'}
-      // bordercolor={timetableItem.colorAbrev}
       variant="outlined"
       color={timetableItem.colorBg}
       style={{ width: '260px' }}
