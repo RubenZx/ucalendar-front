@@ -48,7 +48,7 @@ const SubjectItems = ({ subjectId }: { subjectId: string }) => {
                   history.push(history.location.pathname + '/' + item.id, item)
                 }
               >
-                <TimetableItem {...item} />
+                <TimetableItem timetableItem={item} />
               </HoverBox>
             ))}
           </Box>

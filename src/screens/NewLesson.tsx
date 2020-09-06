@@ -1,6 +1,6 @@
 import { Box } from '@material-ui/core'
 import React from 'react'
-import AddSubject from '../components/forms/add-subject-to-timetable/AddSubject'
+import AddItem from '../components/forms/add-subject-to-timetable'
 import Title from '../components/Title'
 import routes from '../routes/routes'
 
@@ -14,7 +14,7 @@ const NewLesson = () => {
         buttonType="back"
         to={routes.baseUrl.path}
       />
-      <AddSubject />
+      <AddItem />
     </Box>
   )
 }

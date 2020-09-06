@@ -4,8 +4,11 @@ import { TimetableItemRelations } from '../../services/types'
 import { styled } from '../../theme'
 import Groups from './Groups'
 
-const StyledPaper = styled(Paper)`
-  background-color: ${(props) => props.color}!important;
+const StyledPaper = styled(Paper)<{ border?: string; bordercolor?: string }>`
+  background-color: ${({ color }) => color}!important;
+  border: ${({ border }) => border === 'true' && 'solid'}!important;
+  border-color: ${({ border, theme }) =>
+    border === 'true' && theme.palette.primary.main}!important;
   width: 100%;
   padding: 10px;
   margin: 10px;
@@ -15,31 +18,39 @@ const StyledTypography = styled(Typography)<{ abrevcolor: string }>`
   color: ${({ abrevcolor }) => abrevcolor};
   margin: 20px 0px;
 `
-const TimetableItem = (props: TimetableItemRelations) => {
+const TimetableItem = ({
+  border,
+  timetableItem,
+}: {
+  border?: boolean
+  timetableItem: TimetableItemRelations
+}) => {
   return (
     <StyledPaper
       elevation={2}
+      border={border ? 'true' : 'false'}
+      // bordercolor={timetableItem.colorAbrev}
       variant="outlined"
-      color={props.colorBg}
+      color={timetableItem.colorBg}
       style={{ width: '260px' }}
     >
       <Box display="flex" flexDirection="column" flexGrow={1}>
         {/* Hour and classroom */}
         <Box display="flex" justifyContent="space-between">
-          <Typography>{`${props.startHour} a ${props.endHour}`}</Typography>
-          <Typography>Aula {props.classRoom.name}</Typography>
+          <Typography>{`${timetableItem.startHour} a ${timetableItem.endHour}`}</Typography>
+          <Typography>Aula {timetableItem.classRoom.name}</Typography>
         </Box>
         {/* Abrev. of the subject */}
         <Box display="flex" justifyContent="center">
-          <StyledTypography abrevcolor={props.colorAbrev}>
-            {props.subject.abrev}
+          <StyledTypography abrevcolor={timetableItem.colorAbrev}>
+            {timetableItem.subject.abrev}
           </StyledTypography>
         </Box>
         {/* Groups with weeks */}
         <Groups
-          group={props.group.name}
-          type={props.type}
-          weeks={props.weeks}
+          group={timetableItem.group.name}
+          type={timetableItem.type}
+          weeks={timetableItem.weeks}
         />
       </Box>
     </StyledPaper>
