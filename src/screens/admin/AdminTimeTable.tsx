@@ -1,4 +1,6 @@
 import { Box } from '@material-ui/core'
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
+import EditIcon from '@material-ui/icons/Edit'
 import React from 'react'
 import NewItemCard from '../../components/NewItemCard'
 import routes from '../../routes/routes'
@@ -13,15 +15,27 @@ const AdminTimetable = () => {
     >
       <NewItemCard
         img=""
-        title="Añadir nuevo item de horario"
+        title={
+          <Box display="flex" alignItems="center">
+            Añadir nuevo item de horario
+            <Box m={0.5} />
+            <AddCircleOutlineIcon />
+          </Box>
+        }
         body="Aquí puedes añadir un nuevo item a los ya existentes para cada horario"
-        to={routes.newTimeTableItem.path}
+        to={routes.newTimetableItem.path}
       />
       <NewItemCard
         img=""
-        title="Modificar un item de horario"
+        title={
+          <Box display="flex" alignItems="center">
+            Modificar un item de horario
+            <Box m={0.5} />
+            <EditIcon />
+          </Box>
+        }
         body="Aquí puedes modificar un item de los ya existentes para cada horario"
-        to={routes.modifyTimeTableItem.path}
+        to={routes.modifyTimetableItem.path}
       />
     </Box>
   )

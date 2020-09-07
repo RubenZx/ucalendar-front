@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import AdminTimetable from './admin/AdminTimeTable'
+import AdminTimetable from './admin/AdminTimetable'
 import Timetable from './Timetable'
 
 const Base = () => {

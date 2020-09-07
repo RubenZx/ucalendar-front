@@ -57,7 +57,7 @@ export const timetableItemValidationSchema = yup.object().shape({
   colorAbrev: yup.string().required('Por favor, seleccione un color'),
 })
 
-const NewTimeTableItem = () => {
+const NewTimetableItem = () => {
   const [subjects, setSubjects] = useState<Subject[]>()
   const [classRooms, setClassRooms] = useState<Generic[]>()
   const [snackOpen, setSnackOpen] = useState<boolean>(false)
@@ -231,4 +231,4 @@ const NewTimeTableItem = () => {
   )
 }
 
-export default NewTimeTableItem
+export default NewTimetableItem

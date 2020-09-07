@@ -36,7 +36,7 @@ const EditSelectedItem = () => {
           </>
         )
       ) : (
-        <Redirect to={routes.modifyTimeTableItem.path} />
+        <Redirect to={routes.modifyTimetableItem.path} />
       )}
     </>
   )

@@ -1,6 +1,6 @@
-import AddTimeTableItem from '../screens/admin/AddTimeTableItem'
+import AddTimetableItem from '../screens/admin/AddTimetableItem'
 import EditSelectedItem from '../screens/admin/EditSelectedItem'
-import EditTimeTableItem from '../screens/admin/EditTimeTableItem'
+import editTimetableItem from '../screens/admin/EditTimetableItem'
 import Base from '../screens/Base'
 import NewLesson from '../screens/NewLesson'
 import Settings from '../screens/Settings'
@@ -14,9 +14,9 @@ export interface RouteType {
 interface RoutesType {
   baseUrl: RouteType
   newLesson: RouteType
-  newTimeTableItem: RouteType
-  modifyTimeTableItem: RouteType
-  editTimeTableItem: RouteType
+  newTimetableItem: RouteType
+  modifyTimetableItem: RouteType
+  editTimetableItem: RouteType
   settings: RouteType
 }
 
@@ -31,17 +31,17 @@ const routes: RoutesType = {
     name: 'Añadir asignatura',
     path: '/timetable/add-lesson',
   },
-  newTimeTableItem: {
-    Component: AddTimeTableItem,
+  newTimetableItem: {
+    Component: AddTimetableItem,
     name: 'Añadir item',
     path: '/timetable/add-item',
   },
-  modifyTimeTableItem: {
-    Component: EditTimeTableItem,
+  modifyTimetableItem: {
+    Component: editTimetableItem,
     name: 'Modificar item',
     path: '/timetable/edit-item',
   },
-  editTimeTableItem: {
+  editTimetableItem: {
     Component: EditSelectedItem,
     name: 'Editar item',
     path: '/timetable/edit-item/:id',

@@ -1,17 +1,17 @@
 import React from 'react'
-import NewTimeTableItem from '../../components/forms/new-timetable-item'
+import NewTimetableItem from '../../components/forms/new-timetable-item'
 import Title from '../../components/Title'
 
-const AddTimeTableItem = () => {
+const AddTimetableItem = () => {
   return (
     <>
       <Title
         title="Añadir nuevo item"
         subtitle="Aquí puedes crear un nuevo item para los horarios de la ESI"
       />
-      <NewTimeTableItem />
+      <NewTimetableItem />
     </>
   )
 }
 
-export default AddTimeTableItem
+export default AddTimetableItem

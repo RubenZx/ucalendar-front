@@ -1,4 +1,11 @@
-import { Box, Button, MenuItem, Select, Typography } from '@material-ui/core'
+import {
+  Box,
+  Button,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+} from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import { getTimetableItems } from '../../../services/api'
 import {
@@ -103,7 +110,9 @@ const AddItem = () => {
       </StyledBox>
 
       <StyledBox display="flex" flexDirection="column">
-        <Typography variant="body1">Seleccione los items a añadir:</Typography>
+        <InputLabel style={{ marginBottom: '5px' }}>
+          Seleccione los items a añadir:
+        </InputLabel>
         <Box display="flex">
           {selectedId === 0 ? (
             <Typography style={{ fontStyle: 'italic', fontWeight: 'lighter' }}>

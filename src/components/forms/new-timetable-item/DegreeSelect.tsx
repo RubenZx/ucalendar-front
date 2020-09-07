@@ -48,8 +48,13 @@ const DegreeSelect = ({
         label="Elija un grado"
         onChange={async (event: any) => {
           setFieldValue('degree', event.target.value)
-          const subjects = await getSubjects({ id: event.target.value })
-          setSubjects(subjects)
+          try {
+            const subjects = await getSubjects({ id: event.target.value })
+            setSubjects(subjects)
+          } catch (e) {
+            setSubjects([])
+          }
+          setFieldValue('subject', null)
         }}
         onClick={async () => {
           if (idDegree) {
@@ -60,7 +65,9 @@ const DegreeSelect = ({
       >
         {degrees?.map((degree) => (
           <MenuItem value={degree.id} key={degree.id}>
-            {degree.name}
+            <Typography>
+              {degree.name} ({degree.id})
+            </Typography>
           </MenuItem>
         ))}
       </Field>
