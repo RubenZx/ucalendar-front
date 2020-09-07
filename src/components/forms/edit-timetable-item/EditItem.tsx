@@ -5,6 +5,7 @@ import format from 'date-fns/format'
 import { Formik } from 'formik'
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
+import routes from '../../../routes/routes'
 import { getAll, updateTimeTableItem } from '../../../services/api'
 import { Generic, TimetableItemRelations } from '../../../services/types'
 import Loader from '../../Loader'
@@ -190,7 +191,7 @@ const EditItem = (
         open={snackOpen}
         onClose={() => {
           setSnackOpen(false)
-          history.push('/')
+          history.push(routes.baseUrl.path)
         }}
         successMessage="Item actualizado con éxito, redirigiendo..."
         errorMessage={snackMessage + ', redirigiendo...'}

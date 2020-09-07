@@ -6,6 +6,7 @@ import { Form, Formik } from 'formik'
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import * as yup from 'yup'
+import routes from '../../../routes/routes'
 import { createTimetableItem, getAll } from '../../../services/api'
 import { Generic, Subject } from '../../../services/types'
 import { styled } from '../../../theme'
@@ -220,7 +221,7 @@ const NewTimeTableItem = () => {
         open={snackOpen}
         onClose={() => {
           setSnackOpen(false)
-          history.push('/')
+          history.push(routes.baseUrl.path)
         }}
         status={snackMessage === '' ? 'success' : 'error'}
         successMessage="Item creado con éxito, redirigiendo..."

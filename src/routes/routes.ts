@@ -6,7 +6,7 @@ import NewLesson from '../screens/NewLesson'
 import Settings from '../screens/Settings'
 
 export interface RouteType {
-  component: React.ReactNode
+  Component: React.ReactNode
   name: string
   path: string
 }
@@ -22,32 +22,32 @@ interface RoutesType {
 
 const routes: RoutesType = {
   baseUrl: {
-    component: Base,
+    Component: Base,
     name: 'Horario',
-    path: '/',
-  },
-  newTimeTableItem: {
-    component: AddTimeTableItem,
-    name: 'Añadir item',
-    path: '/add-timetable-item',
-  },
-  modifyTimeTableItem: {
-    component: EditTimeTableItem,
-    name: 'Modificar item',
-    path: '/edit-timetable-item',
-  },
-  editTimeTableItem: {
-    component: EditSelectedItem,
-    name: 'Editar item',
-    path: '/edit-timetable-item/:id',
+    path: '/timetable',
   },
   newLesson: {
-    component: NewLesson,
+    Component: NewLesson,
     name: 'Añadir asignatura',
-    path: '/add-lesson',
+    path: '/timetable/add-lesson',
+  },
+  newTimeTableItem: {
+    Component: AddTimeTableItem,
+    name: 'Añadir item',
+    path: '/timetable/add-item',
+  },
+  modifyTimeTableItem: {
+    Component: EditTimeTableItem,
+    name: 'Modificar item',
+    path: '/timetable/edit-item',
+  },
+  editTimeTableItem: {
+    Component: EditSelectedItem,
+    name: 'Editar item',
+    path: '/timetable/edit-item/:id',
   },
   settings: {
-    component: Settings,
+    Component: Settings,
     name: 'Ajustes',
     path: '/settings',
   },

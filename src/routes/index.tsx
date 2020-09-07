@@ -1,30 +1,25 @@
 import React from 'react'
-import { Redirect, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import Layout from '../components/layout'
 import Login from '../screens/Login'
+import NotFound from '../screens/NotFound'
 import routes from './routes'
-
-const DynamicRoutes = () => {
-  return (
-    <>
-      {Object.values(routes).map(({ component, path }) => (
-        <Route exact path={path} key={path} component={component} />
-      ))}
-    </>
-  )
-}
 
 const Router = () => {
   return (
-    <Switch>
-      <Route exact path="/login" component={Login}></Route>
-      <Layout>
-        <DynamicRoutes />
-      </Layout>
-      <Route path="*">
-        <Redirect to={routes.baseUrl.path} />
-      </Route>
-    </Switch>
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/login" component={Login} />
+        {Object.values(routes).map(({ Component, path }) => (
+          <Route exact path={path} key={path}>
+            <Layout>
+              <Component />
+            </Layout>
+          </Route>
+        ))}
+        <Route path="*" component={NotFound} />
+      </Switch>
+    </BrowserRouter>
   )
 }
 

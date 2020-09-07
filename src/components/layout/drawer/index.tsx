@@ -13,8 +13,9 @@ import ListItemText from '@material-ui/core/ListItemText'
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday'
 import SettingsIcon from '@material-ui/icons/Settings'
 import React from 'react'
-import { useHistory } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import Logo from '../../../assets/logo.gif'
+import routes from '../../../routes/routes'
 import { styled } from '../../../theme'
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -30,15 +31,8 @@ const StyledDrawer = styled(Drawer)`
   flex-shrink: 0;
 `
 
-const StyledImg = styled.img`
-  width: 150pt;
-  :hover {
-    cursor: pointer;
-  }
-`
-
 const MenuElements = [
-  { text: 'Horario', icon: <CalendarTodayIcon />, route: '/' },
+  { text: 'Horario', icon: <CalendarTodayIcon />, route: '/timetable' },
   { text: 'Ajustes', icon: <SettingsIcon />, route: '/settings' },
 ]
 
@@ -61,7 +55,9 @@ const MyDrawer = () => {
         minHeight="80px"
         style={{ marginTop: '10px' }}
       >
-        <StyledImg onClick={() => history.push('/')} src={Logo} alt="logoUCA" />
+        <Link to={routes.baseUrl.path}>
+          <img src={Logo} width="180pt" alt="logoUCA" />
+        </Link>
       </Box>
       <Divider />
       <List>
