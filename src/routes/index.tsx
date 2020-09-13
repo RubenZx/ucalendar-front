@@ -1,8 +1,7 @@
 import React from 'react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
 import Layout from '../components/layout'
 import Login from '../screens/Login'
-import NotFound from '../screens/NotFound'
 import routes from './routes'
 
 const Router = () => {
@@ -17,7 +16,9 @@ const Router = () => {
             </Layout>
           </Route>
         ))}
-        <Route path="*" component={NotFound} />
+        <Route path="*">
+          <Redirect to={routes.baseUrl.path} />
+        </Route>
       </Switch>
     </BrowserRouter>
   )
