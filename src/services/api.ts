@@ -18,8 +18,11 @@ export const createGroup = async ({ name }: { name: string }) => {
   return res.data
 }
 
-export const getTimetableItems = async ({ id }: { id: string }) => {
-  const res = await api.get(`subjects/${id}/timetable-items`)
+export const getTimetableItems = async (id: string, semester?: boolean) => {
+  const res = await api.get(
+    `subjects/${id}/timetable-items` +
+      (semester !== undefined ? `?semester=${semester}` : ''),
+  )
   return res.data
 }
 

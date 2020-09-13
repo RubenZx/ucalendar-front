@@ -16,6 +16,7 @@ export interface TimetableItem {
   dayOfTheWeek: number
   endHour: string
   groupId: number
+  semester: boolean
   id: number
   startHour: string
   subjectId: number
@@ -30,6 +31,7 @@ export interface TimetableItemRelations {
   classRoomId: number
   group: Generic
   groupId: number
+  semester: boolean
   subject: Subject
   subjectId: number
   colorBg: string
