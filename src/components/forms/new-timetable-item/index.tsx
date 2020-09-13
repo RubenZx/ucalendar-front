@@ -17,6 +17,7 @@ import DegreeSelect from './DegreeSelect'
 import GroupsSelect from './GroupsSelect'
 import HoursPicker from './HoursPicker'
 import NormalSelect from './NormalSelect'
+import SemesterSelect from './SemesterSelect'
 import SubjectsSelect from './SubjectsSelect'
 
 export const StyledForm = styled(Form)`
@@ -43,6 +44,7 @@ export const timetableItemValidationSchema = yup.object().shape({
   group: yup.string().required('Por favor, elija un grupo').nullable(),
   classRoom: yup.string().required('Por favor, elija un aula'),
   startHour: yup.date().required('Por favor, introduzca una hora de inicio'),
+  semester: yup.boolean().required(),
   endHour: yup
     .date()
     .required('Por favor, introduzca una hora de fin')
@@ -82,6 +84,7 @@ const NewTimetableItem = () => {
           group: null,
           dayOfTheWeek: '',
           type: '',
+          semester: true,
           startHour: new Date(),
           endHour: new Date(),
           weeks: Array(15).fill(false),
@@ -99,6 +102,7 @@ const NewTimetableItem = () => {
               dayOfTheWeek: +values.dayOfTheWeek,
               colorAbrev: values.colorAbrev,
               colorBg: values.colorBg,
+              semester: values.semester,
               startHour: format(values.startHour, 'HH:mm'),
               endHour: format(values.endHour, 'HH:mm'),
               weeks: values.weeks,
@@ -125,12 +129,16 @@ const NewTimetableItem = () => {
           <StyledPaper>
             <StyledForm>
               {/* DEGREE FIELD */}
-              <DegreeSelect
-                error={errors.degree}
-                idDegree={values.degree}
-                setSubjects={setSubjects}
-                setFieldValue={setFieldValue}
-              />
+              <Box display="flex">
+                <DegreeSelect
+                  error={errors.degree}
+                  idDegree={values.degree}
+                  setSubjects={setSubjects}
+                  setFieldValue={setFieldValue}
+                />
+                <Box m={1} />
+                <SemesterSelect value={values.semester} />
+              </Box>
               {/* SUBJECT AND GROUPS */}
               <SubjectsSelect subjects={subjects} error={errors.subject} />
               <Box

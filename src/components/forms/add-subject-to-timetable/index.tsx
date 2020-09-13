@@ -76,9 +76,7 @@ const AddItem = () => {
     ;(async () => {
       if (selectedId !== 0) {
         try {
-          const items = await getTimetableItems({
-            id: selectedId.toString(),
-          })
+          const items = await getTimetableItems(selectedId.toString())
           setItems(items)
           setCheckedItem(Array(items.length).fill(false))
         } catch (error) {

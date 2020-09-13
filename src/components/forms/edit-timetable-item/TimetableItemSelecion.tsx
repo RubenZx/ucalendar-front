@@ -3,6 +3,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Switch,
   TextField,
   Typography,
 } from '@material-ui/core'
@@ -18,6 +19,7 @@ const TimetableItemSelecion = () => {
   const [degrees, setDegrees] = useState<Generic[]>()
   const [subject, setSubject] = useState<SubjectType | null>(null)
   const [subjects, setSubjects] = useState<SubjectType[]>()
+  const [semester, setSemester] = useState(true)
 
   useEffect(() => {
     ;(async () => {
@@ -61,34 +63,52 @@ const TimetableItemSelecion = () => {
           ))}
         </Select>
         <Box m={2} />
-        <InputLabel style={{ marginBottom: '5px' }}>
-          Seleccione una asignatura a modificar
-        </InputLabel>
-        {subjects ? (
-          <Autocomplete
-            fullWidth
-            value={subject}
-            options={subjects}
-            onChange={(_event, value) => {
-              if (value) {
-                setSubject(value)
-              } else {
-                setSubject(null)
-              }
-            }}
-            noOptionsText="No hay asignaturas"
-            getOptionLabel={(option) => option.name}
-            renderInput={(params) => <TextField {...params} />}
-          />
-        ) : (
-          <TextField
-            disabled
-            fullWidth
-            placeholder="Primero ha de seleccionar un grado..."
-          />
-        )}
+        <Box display="flex">
+          <Box display="flex" flexGrow={1} flexDirection="column">
+            <InputLabel style={{ marginBottom: '5px' }}>
+              Seleccione una asignatura a modificar
+            </InputLabel>
+            {subjects ? (
+              <Autocomplete
+                fullWidth
+                value={subject}
+                options={subjects}
+                onChange={(_event, value) => {
+                  if (value) {
+                    setSubject(value)
+                  } else {
+                    setSubject(null)
+                  }
+                }}
+                noOptionsText="No hay asignaturas"
+                getOptionLabel={(option) => option.name}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            ) : (
+              <TextField
+                disabled
+                fullWidth
+                placeholder="Primero ha de seleccionar un grado..."
+              />
+            )}
+          </Box>
+          <Box display="flex" flexDirection="column" alignItems="center">
+            <InputLabel style={{ marginBottom: '5px' }}>
+              Seleccione semestre:
+            </InputLabel>
+            <Typography variant="caption">
+              {semester ? '1er semestre' : '2do semestre'}
+            </Typography>
+            <Switch
+              disabled={!subjects}
+              checked={semester}
+              onChange={() => setSemester(!semester)}
+            />
+          </Box>
+        </Box>
+
         <Box m={2} />
-        {subject && <SubjectItems subjectId={subject.id} />}
+        {subject && <SubjectItems semester={semester} subjectId={subject.id} />}
       </Box>
     </StyledPaper>
   )

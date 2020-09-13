@@ -36,7 +36,7 @@ const DegreeSelect = ({
   }, [])
 
   return (
-    <Box marginBottom="20px">
+    <Box display="flex" flexDirection="column" flexGrow={1} marginBottom="20px">
       <InputLabel style={{ marginBottom: '5px' }}>
         Elija un grado o máster
       </InputLabel>

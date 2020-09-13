@@ -1,9 +1,10 @@
-import { Box, CircularProgress, InputLabel } from '@material-ui/core'
+import { Box, InputLabel } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { getTimetableItems } from '../../services/api'
 import { TimetableItemRelations } from '../../services/types'
 import { styled } from '../../theme'
+import Loader from '../Loader'
 import TimetableItem from './index'
 
 const HoverBox = styled(Box)`
@@ -11,51 +12,62 @@ const HoverBox = styled(Box)`
     cursor: pointer;
   }
 `
-const SubjectItems = ({ subjectId }: { subjectId: string }) => {
-  const [items, setItmes] = useState<TimetableItemRelations[]>()
-  const [loading, setLoading] = useState(true)
+const SubjectItems = ({
+  subjectId,
+  semester,
+}: {
+  subjectId: string
+  semester: boolean
+}) => {
+  const [items, setItmes] = useState<TimetableItemRelations[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
 
   const history = useHistory()
 
   useEffect(() => {
-    ;(async () => {
+    setLoading(true)
+    setTimeout(async () => {
       try {
-        const items = await getTimetableItems({ id: subjectId })
+        const items = await getTimetableItems(subjectId, semester)
         setItmes(items)
       } catch (error) {
         setItmes([])
       }
       setLoading(false)
-    })()
-  }, [subjectId])
+    }, 500)
+  }, [subjectId, semester])
 
   return (
     <>
       {loading ? (
-        <Box display="flex" justifyContent="center">
-          <CircularProgress />
-        </Box>
-      ) : items && items.length > 0 ? (
+        <Loader alignItems="center" />
+      ) : items.length > 0 ? (
         <>
           <InputLabel style={{ marginBottom: '5px' }}>
             Haga click en el item a editar
           </InputLabel>
           <Box display="flex" flexWrap="wrap" justifyContent="flex-start">
-            {items.map((item, idk) => (
-              <HoverBox
-                key={idk}
-                onClick={() =>
-                  history.push(history.location.pathname + '/' + item.id, item)
-                }
-              >
-                <TimetableItem timetableItem={item} />
-              </HoverBox>
-            ))}
+            {items.map(
+              (item, idk) =>
+                item.semester === semester && (
+                  <HoverBox
+                    key={idk}
+                    onClick={() =>
+                      history.push(
+                        history.location.pathname + '/' + item.id,
+                        item,
+                      )
+                    }
+                  >
+                    <TimetableItem timetableItem={item} />
+                  </HoverBox>
+                ),
+            )}
           </Box>
         </>
       ) : (
         <Box display="flex" justifyContent="center">
-          NOT FOUND
+          404 - NOT FOUND
         </Box>
       )}
     </>
