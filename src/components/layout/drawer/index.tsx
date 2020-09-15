@@ -1,5 +1,6 @@
 import {
   Box,
+  Collapse,
   createStyles,
   Drawer,
   List,
@@ -10,13 +11,16 @@ import Divider from '@material-ui/core/Divider'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
+import { ExpandLess, ExpandMore } from '@material-ui/icons'
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday'
 import SettingsIcon from '@material-ui/icons/Settings'
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import Logo from '../../../assets/logo.gif'
 import routes from '../../../routes/routes'
 import { styled } from '../../../theme'
+import AdminSections from './AdminSections'
+import UserSections from './UserSections'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -31,14 +35,16 @@ const StyledDrawer = styled(Drawer)`
   flex-shrink: 0;
 `
 
-const MenuElements = [
-  { text: 'Horario', icon: <CalendarTodayIcon />, route: '/timetable' },
-  { text: 'Ajustes', icon: <SettingsIcon />, route: '/settings' },
+const CommonElements = [
+  { text: 'Ajustes', icon: <SettingsIcon />, path: '/settings' },
 ]
 
 const MyDrawer = () => {
   const classes = useStyles()
   const history = useHistory()
+
+  const [loggedUserRole, setLoggedUserRole] = useState<'admin' | 'user'>('user')
+  const [open, setOpen] = useState(false)
 
   return (
     <StyledDrawer
@@ -60,13 +66,32 @@ const MyDrawer = () => {
         </Link>
       </Box>
       <Divider />
+
       <List>
-        {MenuElements.map(({ text, icon, route }) => (
+        <ListItem
+          button
+          onClick={() => {
+            setOpen(!open)
+          }}
+        >
+          <ListItemIcon>
+            <CalendarTodayIcon />
+          </ListItemIcon>
+          <ListItemText primary="Horario" />
+          {open ? <ExpandLess /> : <ExpandMore />}
+        </ListItem>
+        <Collapse in={open} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            {loggedUserRole === 'admin' ? <AdminSections /> : <UserSections />}
+          </List>
+        </Collapse>
+
+        {CommonElements.map(({ text, icon, path }) => (
           <ListItem
             button
             key={text}
             onClick={() => {
-              history.push(route)
+              history.push(path)
             }}
           >
             <ListItemIcon>{icon}</ListItemIcon>
