@@ -1,10 +1,9 @@
-import React, { useState } from 'react'
-import AdminTimetable from './admin/AdminTimetable'
-import Timetable from './Timetable'
+import React from 'react'
 
 const Base = () => {
-  const [loggedUser] = useState('admin')
-  return loggedUser === 'admin' ? <AdminTimetable /> : <Timetable />
+  // const [loggedUser] = useState('user')
+  // return loggedUser === 'admin' ? <AdminTimetable /> : <UserTimetable />
+  return <>BASE URL</>
 }
 
 export default Base
