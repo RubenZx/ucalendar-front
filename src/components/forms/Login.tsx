@@ -11,7 +11,11 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import { Field, Formik } from 'formik'
 import { TextField } from 'formik-material-ui'
 import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import * as yup from 'yup'
+import { useAuth } from '../../context/auth'
+import routes from '../../routes/routes'
+import { getProfile, login } from '../../services/api'
 
 const validationSchema = yup.object().shape({
   user: yup.string().required('Usuario requerido'),
@@ -20,6 +24,10 @@ const validationSchema = yup.object().shape({
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false)
+  const [error, setError] = useState('')
+  const { signIn, setUser, userToken } = useAuth()
+
+  const history = useHistory()
 
   return (
     <Formik
@@ -27,7 +35,20 @@ const LoginForm = () => {
       validationSchema={validationSchema}
       validateOnBlur={false}
       validateOnChange={false}
-      onSubmit={(values) => console.log(values)}
+      onSubmit={async (values) => {
+        setError('')
+        try {
+          const res = await login(values.user, values.password)
+          signIn(res.access_token)
+          history.push(routes.baseUrl.path)
+        } catch (error) {
+          setError('Usuario o contraseña incorrectos')
+        }
+        if (userToken) {
+          const user = await getProfile(userToken, values.user)
+          setUser(user)
+        }
+      }}
     >
       {({ submitForm, isSubmitting, errors }) => (
         <>
@@ -50,8 +71,8 @@ const LoginForm = () => {
                 name="password"
                 fullWidth
                 type={showPassword ? 'text' : 'password'}
-                error={errors.password !== undefined}
-                helperText={errors.password}
+                error={errors.password !== undefined || error !== ''}
+                helperText={errors.password || error}
               />
               <IconButton
                 onClick={(event) => {
