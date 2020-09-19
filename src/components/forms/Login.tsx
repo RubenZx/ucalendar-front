@@ -25,7 +25,7 @@ const validationSchema = yup.object().shape({
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
-  const { signIn, setUser, userToken } = useAuth()
+  const { signIn, setUser } = useAuth()
 
   const history = useHistory()
 
@@ -40,13 +40,13 @@ const LoginForm = () => {
         try {
           const res = await login(values.user, values.password)
           signIn(res.access_token)
+          if (res.access_token) {
+            const user = await getProfile(res.access_token, values.user)
+            setUser(user)
+          }
           history.push(routes.baseUrl.path)
         } catch (error) {
           setError('Usuario o contraseña incorrectos')
-        }
-        if (userToken) {
-          const user = await getProfile(userToken, values.user)
-          setUser(user)
         }
       }}
     >

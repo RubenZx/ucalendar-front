@@ -99,7 +99,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         })
       },
       signOut: () => {
-        localStorage.removeItem('userToken')
+        localStorage.clear()
         dispatch({ type: 'SIGN_OUT', token: null, user: undefined })
       },
       isLoading: state.isLoading,
