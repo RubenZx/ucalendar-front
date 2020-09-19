@@ -5,6 +5,7 @@ import Filter1Icon from '@material-ui/icons/Filter1'
 import Filter2Icon from '@material-ui/icons/Filter2'
 import React from 'react'
 import { useHistory } from 'react-router-dom'
+import routes from '../../../routes/routes'
 import { styled } from '../../../theme'
 
 export const StyledListItem = styled(ListItem)`
@@ -15,12 +16,12 @@ const HorarioElements = [
   {
     text: '1er semestre',
     icon: <Filter1Icon />,
-    path: '/timetable',
+    path: routes.firstSemester.path,
   },
   {
     text: '2do semestre',
     icon: <Filter2Icon />,
-    path: '/timetable',
+    path: routes.secondSemester.path,
   },
 ]
 
@@ -34,8 +35,7 @@ const UserSections = () => {
           button
           key={text}
           onClick={() => {
-            // GOES TO /timetable/:id
-            history.push(path + '/' + idk)
+            history.push(path)
           }}
         >
           <ListItemIcon>{icon}</ListItemIcon>

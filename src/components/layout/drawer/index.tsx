@@ -13,10 +13,12 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import { ExpandLess, ExpandMore } from '@material-ui/icons'
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday'
+import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import SettingsIcon from '@material-ui/icons/Settings'
 import React, { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import Logo from '../../../assets/logo.gif'
+import { useAuth } from '../../../context/auth'
 import routes from '../../../routes/routes'
 import { styled } from '../../../theme'
 import AdminSections from './AdminSections'
@@ -42,8 +44,7 @@ const CommonElements = [
 const MyDrawer = () => {
   const classes = useStyles()
   const history = useHistory()
-
-  const [loggedUserRole, setLoggedUserRole] = useState<'admin' | 'user'>('user')
+  const { signOut, user } = useAuth()
   const [open, setOpen] = useState(false)
 
   return (
@@ -82,7 +83,7 @@ const MyDrawer = () => {
         </ListItem>
         <Collapse in={open} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            {loggedUserRole === 'admin' ? <AdminSections /> : <UserSections />}
+            {user?.role === 'ADMIN' ? <AdminSections /> : <UserSections />}
           </List>
         </Collapse>
 
@@ -98,6 +99,15 @@ const MyDrawer = () => {
             <ListItemText primary={text} />
           </ListItem>
         ))}
+        <ListItem
+          button
+          onClick={() => {
+            signOut()
+          }}
+        >
+          <ListItemIcon>{<ExitToAppIcon />}</ListItemIcon>
+          <ListItemText primary="Salir" />
+        </ListItem>
       </List>
       <Divider />
     </StyledDrawer>
