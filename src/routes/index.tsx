@@ -1,12 +1,23 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
 import Layout from '../components/layout'
+import { useAuth } from '../context/auth'
 import Login from '../screens/Login'
 import routes from './routes'
 
 const Router = () => {
+  const { isTokenValid, isLoading } = useAuth()
+  const [redirect, setRedirect] = useState<boolean>()
+
+  useEffect(() => {
+    if (!isLoading) {
+      setRedirect(!isTokenValid)
+    }
+  }, [isLoading, isTokenValid])
+
   return (
     <BrowserRouter>
+      {redirect && <Redirect to="/login" />}
       <Switch>
         <Route exact path="/login" component={Login} />
         {Object.values(routes).map(({ Component, path }) => (
@@ -16,7 +27,7 @@ const Router = () => {
             </Layout>
           </Route>
         ))}
-        <Route path="*">
+        <Route>
           <Redirect to={routes.baseUrl.path} />
         </Route>
       </Switch>

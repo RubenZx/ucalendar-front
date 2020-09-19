@@ -14,8 +14,10 @@ export interface RouteType {
 
 interface RoutesType {
   baseUrl: RouteType
-  newLesson: RouteType
-  semester: RouteType
+  firstNewLesson: RouteType
+  secondNewLesson: RouteType
+  firstSemester: RouteType
+  secondSemester: RouteType
   newTimetableItem: RouteType
   modifyTimetableItem: RouteType
   editTimetableItem: RouteType
@@ -27,12 +29,6 @@ const routes: RoutesType = {
     Component: Base,
     name: 'Horario',
     path: '/',
-  },
-  // TODO: edit the following route
-  newLesson: {
-    Component: NewLesson,
-    name: 'Añadir asignatura',
-    path: '/timetable/add-lesson',
   },
   newTimetableItem: {
     Component: AddTimetableItem,
@@ -49,10 +45,25 @@ const routes: RoutesType = {
     name: 'Editar item',
     path: '/timetable/edit-item/:id',
   },
-  semester: {
+  firstSemester: {
     Component: UserTimetable,
     name: 'Horario',
-    path: '/timetable/:id',
+    path: '/timetable/first-semester',
+  },
+  secondSemester: {
+    Component: UserTimetable,
+    name: 'Horario',
+    path: '/timetable/second-semester',
+  },
+  firstNewLesson: {
+    Component: NewLesson,
+    name: 'Añadir asignatura',
+    path: '/timetable/first-semester/add-lesson',
+  },
+  secondNewLesson: {
+    Component: NewLesson,
+    name: 'Añadir asignatura',
+    path: '/timetable/second-semester/add-lesson',
   },
   settings: {
     Component: Settings,
