@@ -41,7 +41,7 @@ const Title = ({ title, subtitle, withButton, buttonType, to }: TitleProps) => {
               Añadir nueva asignatura
             </Button>
           ) : (
-            <IconButton onClick={() => history.push(to)}>
+            <IconButton onClick={() => history.goBack()}>
               <CloseIcon />
             </IconButton>
           )}
