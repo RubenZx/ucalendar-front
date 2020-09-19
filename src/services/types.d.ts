@@ -7,6 +7,14 @@ export interface Subject {
   id: string
   abrev: string
   name: string
+  semester: boolean
+}
+
+export interface User {
+  lastName: string
+  name: string
+  role: 'ALUMN' | 'ADMIN' | 'PROFFESOR'
+  uid: string
 }
 
 export interface TimetableItem {
