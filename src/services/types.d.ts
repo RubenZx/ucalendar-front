@@ -13,7 +13,7 @@ export interface Subject {
 export interface User {
   lastName: string
   name: string
-  role: 'ALUMN' | 'ADMIN' | 'PROFFESOR'
+  role: 'ALUMN' | 'ADMINISTRATOR' | 'PROFESSOR'
   uid: string
 }
 
@@ -32,8 +32,6 @@ export interface TimetableItem {
   weeks: boolean[]
 }
 
-export type UpdateTimetableItem = Partial<TimetableItem>
-
 export interface TimetableItemRelations {
   classRoom: Generic
   classRoomId: number
@@ -51,3 +49,5 @@ export interface TimetableItemRelations {
   type: string
   weeks: boolean[]
 }
+
+export type UpdateTimetableItem = Partial<TimetableItem>
