@@ -14,10 +14,19 @@ interface TitleProps {
   withButton?: boolean
   buttonType?: 'add' | 'back'
   to?: string
+  state?: any
 }
 
-const Title = ({ title, subtitle, withButton, buttonType, to }: TitleProps) => {
+const Title = ({
+  title,
+  subtitle,
+  withButton,
+  buttonType,
+  to,
+  state,
+}: TitleProps) => {
   const history = useHistory()
+
   return (
     <StyledBox
       display="flex"
@@ -36,7 +45,7 @@ const Title = ({ title, subtitle, withButton, buttonType, to }: TitleProps) => {
             <Button
               variant="contained"
               color="primary"
-              onClick={() => history.push(to)}
+              onClick={() => history.push(to, state)}
             >
               Añadir nueva asignatura
             </Button>
