@@ -21,7 +21,6 @@ import ColorPicker from '../new-timetable-item/ColorPicker'
 import GroupsSelect from '../new-timetable-item/GroupsSelect'
 import HoursPicker from '../new-timetable-item/HoursPicker'
 import NormalSelect from '../new-timetable-item/NormalSelect'
-import SemesterSelect from '../new-timetable-item/SemesterSelect'
 
 const EditItem = (
   props: TimetableItemRelations & { degree: Generic | undefined },
@@ -58,7 +57,6 @@ const EditItem = (
         initialValues={{
           degree: props.degree,
           subject: props.subject,
-          semester: props.semester,
           classRoom: selectedClass,
           group: props.group,
           dayOfTheWeek: props.dayOfTheWeek,
@@ -86,7 +84,6 @@ const EditItem = (
                     endHour: format(values.endHour, 'HH:mm'),
                     type: types[values.type],
                     weeks: values.weeks,
-                    semester: values.semester,
                   },
                   props.id,
                 )
@@ -169,7 +166,6 @@ const EditItem = (
                   colorAbrev={values.colorAbrev}
                   error={errors.colorAbrev}
                 />
-                <SemesterSelect value={values.semester} />
                 <Box m={1} />
               </Box>
 
