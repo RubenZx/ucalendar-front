@@ -7,6 +7,7 @@ import {
 import React from 'react'
 import { ThemeProvider } from 'styled-components'
 import { AuthProvider } from './context/auth'
+import { UserProvider } from './context/user'
 import Router from './routes'
 import theme from './theme'
 
@@ -21,7 +22,9 @@ const App = () => {
             {/* Allow share the theme with styled components */}
             <ThemeProvider theme={theme}>
               <AuthProvider>
-                <Router />
+                <UserProvider>
+                  <Router />
+                </UserProvider>
               </AuthProvider>
             </ThemeProvider>
           </MuiThemeProvider>

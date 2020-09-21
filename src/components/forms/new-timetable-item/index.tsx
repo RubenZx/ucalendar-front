@@ -133,6 +133,7 @@ const NewTimetableItem = () => {
                 <DegreeSelect
                   error={errors.degree}
                   idDegree={values.degree}
+                  semester={values.semester}
                   setSubjects={setSubjects}
                   setFieldValue={setFieldValue}
                 />

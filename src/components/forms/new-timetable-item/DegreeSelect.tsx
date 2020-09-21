@@ -11,6 +11,7 @@ export const Error = styled(Typography)`
 `
 interface DegreeSelectProps {
   idDegree: string | undefined
+  semester: boolean
   error: string | undefined
   setSubjects: (subjects: Subject[]) => void
   setFieldValue: (
@@ -23,6 +24,7 @@ interface DegreeSelectProps {
 const DegreeSelect = ({
   error,
   idDegree,
+  semester,
   setSubjects,
   setFieldValue,
 }: DegreeSelectProps) => {
@@ -49,7 +51,7 @@ const DegreeSelect = ({
         onChange={async (event: any) => {
           setFieldValue('degree', event.target.value)
           try {
-            const subjects = await getSubjects({ id: event.target.value })
+            const subjects = await getSubjects(event.target.value, semester)
             setSubjects(subjects)
           } catch (e) {
             setSubjects([])
@@ -58,7 +60,7 @@ const DegreeSelect = ({
         }}
         onClick={async () => {
           if (idDegree) {
-            const subjects = await getSubjects({ id: idDegree })
+            const subjects = await getSubjects(idDegree, semester)
             setSubjects(subjects)
           }
         }}

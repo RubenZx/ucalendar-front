@@ -1,4 +1,4 @@
-import { Box, InputLabel } from '@material-ui/core'
+import { Box, InputLabel, Typography } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { getTimetableItems } from '../../services/api'
@@ -66,9 +66,9 @@ const SubjectItems = ({
           </Box>
         </>
       ) : (
-        <Box display="flex" justifyContent="center">
-          404 - NOT FOUND
-        </Box>
+        <Typography variant="subtitle2">
+          No se encuentran items disponibles para la asignatura seleccionada...
+        </Typography>
       )}
     </>
   )

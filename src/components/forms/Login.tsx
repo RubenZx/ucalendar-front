@@ -14,6 +14,7 @@ import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import * as yup from 'yup'
 import { useAuth } from '../../context/auth'
+import { useUser } from '../../context/user'
 import routes from '../../routes/routes'
 import { getProfile, login } from '../../services/api'
 
@@ -25,7 +26,8 @@ const validationSchema = yup.object().shape({
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
-  const { signIn, setUser } = useAuth()
+  const { signIn } = useAuth()
+  const { setUser } = useUser()
 
   const history = useHistory()
 

@@ -19,6 +19,7 @@ import React, { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import Logo from '../../../assets/logo.gif'
 import { useAuth } from '../../../context/auth'
+import { useUser } from '../../../context/user'
 import routes from '../../../routes/routes'
 import { styled } from '../../../theme'
 import AdminSections from './AdminSections'
@@ -44,7 +45,9 @@ const CommonElements = [
 const MyDrawer = () => {
   const classes = useStyles()
   const history = useHistory()
-  const { signOut, user } = useAuth()
+  const { signOut } = useAuth()
+  const { user, removeUser } = useUser()
+
   const [open, setOpen] = useState(false)
 
   return (
@@ -83,7 +86,11 @@ const MyDrawer = () => {
         </ListItem>
         <Collapse in={open} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            {user?.role === 'ADMIN' ? <AdminSections /> : <UserSections />}
+            {user?.role === 'ADMINISTRATOR' ? (
+              <AdminSections />
+            ) : (
+              <UserSections />
+            )}
           </List>
         </Collapse>
 
@@ -103,6 +110,7 @@ const MyDrawer = () => {
           button
           onClick={() => {
             signOut()
+            removeUser()
           }}
         >
           <ListItemIcon>{<ExitToAppIcon />}</ListItemIcon>

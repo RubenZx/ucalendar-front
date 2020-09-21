@@ -24,37 +24,18 @@ const HoverableBox = styled(Box)`
   :hover {
     cursor: pointer;
   }
+  color: ${(props: { color: string }) => props.color}!important;
 `
 
-const subjects: SubjectType[] = [
-  {
-    abrev: 'OGE',
-    id: '21714001',
-    name: 'ORGANIZACIÓN Y GESTIÓN DE EMPRESAS',
-  },
-  {
-    abrev: 'EST',
-    id: '21714002',
-    name: 'ESTADÍSTICA',
-  },
-  {
-    abrev: 'FFE',
-    id: '21714003',
-    name: 'FUNDAMENTOS FÍSICOS Y ELECTRÓNICOS DE LA INFORMÁTICA',
-  },
-  {
-    abrev: 'FEC',
-    id: '21714004',
-    name: 'FUNDAMENTOS DE ESTRUCTURA DE COMPUTADORES',
-  },
-  {
-    abrev: 'IG',
-    id: '21714005',
-    name: 'INFORMÁTICA GENERAL',
-  },
-]
-
-const AddItem = () => {
+const AddItem = ({
+  subjects,
+  itemsAdded,
+  semester,
+}: {
+  subjects: SubjectType[]
+  itemsAdded: TimetableItemRelations[]
+  semester: boolean
+}) => {
   const [selectedId, setSelectedId] = useState(0)
   const [items, setItems] = useState<TimetableItemRelations[]>()
   const [checkedItem, setCheckedItem] = useState<boolean[]>()
@@ -72,12 +53,23 @@ const AddItem = () => {
     }
   }
 
+  console.log(checkedItem)
+
+  const handleAdd = () => {
+    console.log()
+  }
+
   useEffect(() => {
     ;(async () => {
       if (selectedId !== 0) {
         try {
           const items = await getTimetableItems(selectedId.toString())
-          setItems(items)
+          // Quitamos los items que ya estén en nuestro horario
+          setItems([
+            ...items.filter(
+              (item) => !itemsAdded.find((i) => i.id === item.id),
+            ),
+          ])
           setCheckedItem(Array(items.length).fill(false))
         } catch (error) {
           setItems([])
@@ -85,7 +77,8 @@ const AddItem = () => {
         }
       }
     })()
-  }, [selectedId])
+    console.log('aaaah')
+  }, [selectedId, itemsAdded])
 
   return (
     <StyledPaper elevation={2}>
@@ -118,8 +111,17 @@ const AddItem = () => {
             </Typography>
           ) : items && checkedItem && items.length > 0 ? (
             items.map((item, idk) => (
-              <HoverableBox key={idk} onClick={() => handleSelect(idk)}>
-                <TimetableItem timetableItem={item} border={checkedItem[idk]} />
+              <HoverableBox
+                color="#000"
+                key={idk}
+                onClick={() => handleSelect(idk)}
+              >
+                <TimetableItem
+                  timetableItem={item}
+                  showDay
+                  border={checkedItem[idk]}
+                  borderColor={itemsAdded.includes(item) ? 'red' : undefined}
+                />
               </HoverableBox>
             ))
           ) : (
@@ -131,7 +133,7 @@ const AddItem = () => {
       </StyledBox>
 
       <Box display="flex" justifyContent="flex-end">
-        <Button type="submit" color="primary">
+        <Button type="submit" color="primary" onClick={handleAdd}>
           Añadir items
         </Button>
       </Box>

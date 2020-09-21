@@ -5,12 +5,15 @@ import { useHistory } from 'react-router-dom'
 import Timetable from '../../components/Timetable'
 import Title from '../../components/Title'
 import { useAuth } from '../../context/auth'
+import { useUser } from '../../context/user'
 import routes from '../../routes/routes'
 import { getTimetable } from '../../services/api'
 import { TimetableItemRelations } from '../../services/types'
 
 const UserTimetable = () => {
-  const { user, userToken } = useAuth()
+  const { userToken } = useAuth()
+  const { user } = useUser()
+
   const uid = user?.uid
 
   const { location } = useHistory()
@@ -39,6 +42,7 @@ const UserTimetable = () => {
         withButton={true}
         buttonType="add"
         to={semester ? routes.firstNewLesson.path : routes.secondNewLesson.path}
+        state={timetableItems}
       />
       <Timetable items={timetableItems || []} />
       <Box display="flex" justifyContent="flex-end">

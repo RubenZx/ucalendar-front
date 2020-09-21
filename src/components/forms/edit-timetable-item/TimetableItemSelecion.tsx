@@ -32,13 +32,13 @@ const TimetableItemSelecion = () => {
     if (degree) {
       ;(async () => {
         try {
-          const subjects = await getSubjects({ id: degree })
+          const subjects = await getSubjects(degree, semester)
           setSubjects(subjects)
         } catch (e) {}
       })()
     }
     setSubject(null)
-  }, [degree])
+  }, [degree, semester])
 
   return (
     <StyledPaper>
@@ -107,7 +107,7 @@ const TimetableItemSelecion = () => {
           </Box>
         </Box>
 
-        <Box m={2} />
+        <Box m={1} />
         {subject && <SubjectItems semester={semester} subjectId={subject.id} />}
       </Box>
     </StyledPaper>

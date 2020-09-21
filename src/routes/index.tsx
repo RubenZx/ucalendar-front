@@ -1,32 +1,31 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
 import Layout from '../components/layout'
-import { useAuth } from '../context/auth'
+import { useUser } from '../context/user'
 import Login from '../screens/Login'
+import PrivateRoute from './PrivateRoute'
 import routes from './routes'
 
 const Router = () => {
-  const { isTokenValid, isLoading } = useAuth()
-  const [redirect, setRedirect] = useState<boolean>()
-
-  useEffect(() => {
-    if (!isLoading) {
-      setRedirect(!isTokenValid)
-    }
-  }, [isLoading, isTokenValid])
+  const { user } = useUser()
 
   return (
     <BrowserRouter>
-      {redirect && <Redirect to="/login" />}
       <Switch>
-        <Route exact path="/login" component={Login} />
-        {Object.values(routes).map(({ Component, path }) => (
-          <Route exact path={path} key={path}>
-            <Layout>
-              <Component />
-            </Layout>
-          </Route>
-        ))}
+        {!user && <Route exact path="/login" component={Login} />}
+        {Object.values(routes).map(({ Component, path, roles }) => {
+          return (
+            <PrivateRoute exact path={path} key={path}>
+              {roles.includes(user?.role) || roles.includes('ALL') ? (
+                <Layout>
+                  <Component />
+                </Layout>
+              ) : (
+                <Redirect to="/" />
+              )}
+            </PrivateRoute>
+          )
+        })}
         <Route>
           <Redirect to={routes.baseUrl.path} />
         </Route>

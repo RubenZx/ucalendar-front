@@ -4,17 +4,29 @@ import { useHistory } from 'react-router-dom'
 import AddItem from '../components/forms/add-subject-to-timetable'
 import Title from '../components/Title'
 import { useAuth } from '../context/auth'
+import { useUser } from '../context/user'
 import routes from '../routes/routes'
-import { getUserSubjects } from '../services/api'
+import { getTimetable, getUserSubjects } from '../services/api'
+import { Subject, TimetableItemRelations } from '../services/types'
 
 const NewLesson = () => {
-  const { user, userToken } = useAuth()
+  const { userToken } = useAuth()
+  const { user } = useUser()
+
   const uid = user?.uid
 
-  const { location } = useHistory()
+  const { location } = useHistory<{ timeTableItem: TimetableItemRelations }[]>()
   const semester = location.pathname.includes('first')
 
-  const [subjects, setSubjects] = useState([])
+  const [itemsAdded, setItemsAdded] = useState(location.state)
+  const [subjects, setSubjects] = useState<Subject[]>([])
+
+  if (itemsAdded === undefined && userToken) {
+    ;(async () => {
+      const res = await getTimetable(uid, semester, userToken)
+      setItemsAdded(res.timeTableItems)
+    })()
+  }
 
   useEffect(() => {
     ;(async () => {
@@ -36,7 +48,11 @@ const NewLesson = () => {
         buttonType="back"
         to={routes.baseUrl.path}
       />
-      <AddItem subjects={subjects} semester={semester} />
+      <AddItem
+        itemsAdded={itemsAdded.map((item) => item.timeTableItem)}
+        subjects={subjects}
+        semester={semester}
+      />
     </Box>
   )
 }
