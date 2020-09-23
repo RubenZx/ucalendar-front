@@ -21,6 +21,7 @@ const colors: indexedObject = {
 interface ColorPickerProps {
   error: string | undefined
   colorAbrev?: string
+  disabled?: boolean
   setFieldValue: (
     field: string,
     value: any,
@@ -28,7 +29,12 @@ interface ColorPickerProps {
   ) => void
 }
 
-export default ({ setFieldValue, error, colorAbrev }: ColorPickerProps) => {
+export default ({
+  setFieldValue,
+  error,
+  colorAbrev,
+  disabled = false,
+}: ColorPickerProps) => {
   const [color, setColor] = useState(colorAbrev)
 
   return (
@@ -42,9 +48,11 @@ export default ({ setFieldValue, error, colorAbrev }: ColorPickerProps) => {
         colors={Object.keys(colors)}
         width="100%"
         onChange={(color) => {
-          setColor(color.hex)
-          setFieldValue('colorBg', colors[color.hex])
-          setFieldValue('colorAbrev', color.hex)
+          if (!disabled) {
+            setColor(color.hex)
+            setFieldValue('colorBg', colors[color.hex])
+            setFieldValue('colorAbrev', color.hex)
+          }
         }}
       />
       <Error variant="caption" color="error">

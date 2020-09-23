@@ -205,6 +205,7 @@ const NewTimetableItem = () => {
                 <ColorPicker
                   setFieldValue={setFieldValue}
                   error={errors.colorAbrev}
+                  disabled={isSubmitting}
                 />
               </Box>
               {/* SUBMIT BUTTON */}
