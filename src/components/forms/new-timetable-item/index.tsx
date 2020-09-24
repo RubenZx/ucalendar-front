@@ -1,7 +1,7 @@
 import DateFnsUtils from '@date-io/date-fns'
 import { Box, Button, InputLabel, Paper } from '@material-ui/core'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
-import format from 'date-fns/format'
+import { format } from 'date-fns'
 import { Form, Formik } from 'formik'
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
@@ -60,10 +60,38 @@ export const timetableItemValidationSchema = yup.object().shape({
   colorAbrev: yup.string().required('Por favor, seleccione un color'),
 })
 
+interface SubmitFormData {
+  classRoomId: number
+  colorAbrev: string
+  colorBg: string
+  dayOfTheWeek: number
+  endHour: string
+  groupId: number
+  semester: boolean
+  startHour: string
+  type: string
+  weeks: boolean[]
+}
+
+const initialValues = {
+  degree: '',
+  semester: true,
+  subject: { id: '' },
+  classRoom: '',
+  group: null,
+  dayOfTheWeek: '',
+  type: '',
+  startHour: new Date(),
+  endHour: new Date(),
+  weeks: Array(15).fill(false),
+  colorAbrev: '',
+  colorBg: '',
+}
+
 const NewTimetableItem = () => {
   const [subjects, setSubjects] = useState<Subject[]>()
   const [classRooms, setClassRooms] = useState<Generic[]>()
-  const [snackOpen, setSnackOpen] = useState<boolean>(false)
+  const [snackOpen, setSnackOpen] = useState(false)
   const [snackMessage, setSnackMessage] = useState<string>('')
 
   const history = useHistory()
@@ -76,27 +104,29 @@ const NewTimetableItem = () => {
     })()
   }, [])
 
+  const handleSubmit = (data: SubmitFormData, subjectId: string) => {
+    if (userToken) {
+      ;(async () => {
+        try {
+          await createTimetableItem(data, subjectId, userToken)
+          setSnackOpen(true)
+        } catch (e) {
+          setSnackMessage(e.response.data.message)
+          setSnackOpen(true)
+        }
+      })()
+    }
+  }
+
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <Formik
-        initialValues={{
-          degree: '',
-          subject: null,
-          classRoom: '',
-          group: null,
-          dayOfTheWeek: '',
-          type: '',
-          semester: true,
-          startHour: new Date(),
-          endHour: new Date(),
-          weeks: Array(15).fill(false),
-          colorAbrev: '',
-          colorBg: '',
-        }}
-        validateOnChange={false}
+        initialValues={initialValues}
         validateOnBlur={false}
+        validateOnChange={false}
+        validationSchema={timetableItemValidationSchema}
         onSubmit={(values) => {
-          if (classRooms && userToken) {
+          if (classRooms) {
             const data = {
               classRoomId: +classRooms[+values.classRoom].id,
               // @ts-ignore
@@ -110,25 +140,11 @@ const NewTimetableItem = () => {
               weeks: values.weeks,
               type: types[+values.type],
             }
-            ;(async () => {
-              try {
-                await createTimetableItem(
-                  data,
-                  // @ts-ignore
-                  values.subject?.id,
-                  userToken,
-                )
-                setSnackOpen(true)
-              } catch (e) {
-                setSnackMessage(e.response.data.message)
-                setSnackOpen(true)
-              }
-            })()
+            handleSubmit(data, values.subject.id)
           }
         }}
-        validationSchema={timetableItemValidationSchema}
       >
-        {({ submitForm, isSubmitting, errors, values, setFieldValue }) => (
+        {({ values, errors, setFieldValue, isSubmitting, submitForm }) => (
           <StyledPaper>
             <StyledForm>
               {/* DEGREE FIELD */}
@@ -160,8 +176,7 @@ const NewTimetableItem = () => {
                 <Box m={2} />
                 <GroupsSelect error={errors.group} disabled={isSubmitting} />
               </Box>
-
-              {/* DAY OF THE WEEK AND TYPE */}
+              {/* DAY OF THE WEEK AND CLASS TYPE */}
               <Box display="flex" flexGrow={1} marginBottom="20px">
                 <NormalSelect
                   error={errors.dayOfTheWeek}
@@ -211,6 +226,7 @@ const NewTimetableItem = () => {
                   disabled={isSubmitting}
                 />
               </Box>
+
               {/* SUBMIT BUTTON */}
               <Box
                 display="flex"

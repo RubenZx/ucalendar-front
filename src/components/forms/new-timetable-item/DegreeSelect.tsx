@@ -37,6 +37,20 @@ const DegreeSelect = ({
     })()
   }, [])
 
+  useEffect(() => {
+    if (idDegree) {
+      ;(async () => {
+        try {
+          const res = await getSubjects(idDegree, semester)
+          setSubjects(res)
+        } catch (e) {
+          setSubjects([])
+        }
+      })()
+      setFieldValue('subject', null)
+    }
+  }, [semester, idDegree, setSubjects, setFieldValue])
+
   return (
     <Box display="flex" flexDirection="column" flexGrow={1} marginBottom="20px">
       <InputLabel style={{ marginBottom: '5px' }}>
@@ -48,22 +62,6 @@ const DegreeSelect = ({
         component={Select}
         name="degree"
         label="Elija un grado"
-        onChange={async (event: any) => {
-          setFieldValue('degree', event.target.value)
-          try {
-            const subjects = await getSubjects(event.target.value, semester)
-            setSubjects(subjects)
-          } catch (e) {
-            setSubjects([])
-          }
-          setFieldValue('subject', null)
-        }}
-        onClick={async () => {
-          if (idDegree) {
-            const subjects = await getSubjects(idDegree, semester)
-            setSubjects(subjects)
-          }
-        }}
       >
         {degrees?.map((degree) => (
           <MenuItem value={degree.id} key={degree.id}>

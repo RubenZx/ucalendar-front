@@ -12,7 +12,12 @@ const SemesterSelect = ({ value }: { value: boolean }) => {
       <Typography variant="caption">
         {value ? '1er semestre' : '2do semestre'}
       </Typography>
-      <Field component={Switch} checked={value} name="semester" />
+      <Field
+        component={Switch}
+        checked={value}
+        type="checkbox"
+        name="semester"
+      />
     </Box>
   )
 }
