@@ -46,7 +46,7 @@ const TimetableItem = ({
       elevation={2}
       border={border ? 'true' : 'false'}
       variant="outlined"
-      color={timetableItem.colorBg}
+      color={borderColor ? '#d8d8d8' : timetableItem.colorBg}
       bordercolor={borderColor}
       style={{ width: '260px' }}
     >
@@ -61,7 +61,9 @@ const TimetableItem = ({
         </Box>
         {/* Abrev. of the subject */}
         <Box display="flex" justifyContent="center">
-          <StyledTypography abrevcolor={timetableItem.colorAbrev}>
+          <StyledTypography
+            abrevcolor={borderColor ? '#828282' : timetableItem.colorAbrev}
+          >
             {timetableItem.subject.abrev}
           </StyledTypography>
         </Box>
