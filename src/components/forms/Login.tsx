@@ -27,7 +27,7 @@ const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
   const { signIn } = useAuth()
-  const { setUser } = useUser()
+  const { setUser, setTimetableItems } = useUser()
 
   const history = useHistory()
 
@@ -43,7 +43,11 @@ const LoginForm = () => {
           const res = await login(values.user, values.password)
           signIn(res.access_token)
           if (res.access_token) {
-            const user = await getProfile(res.access_token, values.user)
+            const { timetableItems, ...user } = await getProfile(
+              res.access_token,
+              values.user,
+            )
+            setTimetableItems(timetableItems)
             setUser(user)
           }
           history.push(routes.baseUrl.path)
@@ -65,6 +69,7 @@ const LoginForm = () => {
               fullWidth
               error={errors.user !== undefined}
               helperText={errors.user}
+              style={{ marginBottom: error && '5pt' }}
             />
             <Box display="flex" alignItems="center">
               <Field

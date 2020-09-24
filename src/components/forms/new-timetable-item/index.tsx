@@ -6,6 +6,7 @@ import { Form, Formik } from 'formik'
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import * as yup from 'yup'
+import { useAuth } from '../../../context/auth'
 import routes from '../../../routes/routes'
 import { createTimetableItem, getAll } from '../../../services/api'
 import { Generic, Subject } from '../../../services/types'
@@ -66,6 +67,7 @@ const NewTimetableItem = () => {
   const [snackMessage, setSnackMessage] = useState<string>('')
 
   const history = useHistory()
+  const { userToken } = useAuth()
 
   useEffect(() => {
     ;(async () => {
@@ -94,7 +96,7 @@ const NewTimetableItem = () => {
         validateOnChange={false}
         validateOnBlur={false}
         onSubmit={(values) => {
-          if (classRooms) {
+          if (classRooms && userToken) {
             const data = {
               classRoomId: +classRooms[+values.classRoom].id,
               // @ts-ignore
@@ -114,6 +116,7 @@ const NewTimetableItem = () => {
                   data,
                   // @ts-ignore
                   values.subject?.id,
+                  userToken,
                 )
                 setSnackOpen(true)
               } catch (e) {
@@ -234,8 +237,8 @@ const NewTimetableItem = () => {
           history.push(routes.baseUrl.path)
         }}
         status={snackMessage === '' ? 'success' : 'error'}
-        successMessage="Item creado con éxito, redirigiendo..."
-        errorMessage={snackMessage + ', redirigiendo...'}
+        successMessage="Item creado con éxito..."
+        errorMessage={snackMessage + '...'}
       />
     </MuiPickersUtilsProvider>
   )

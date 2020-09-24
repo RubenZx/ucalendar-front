@@ -9,17 +9,27 @@ import {
 } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete'
 import React, { useEffect, useState } from 'react'
-import { getAll, getSubjects } from '../../../services/api'
-import { Generic, Subject as SubjectType } from '../../../services/types'
+import { useAuth } from '../../../context/auth'
+import { getAll, getSubjects, getTimetableItems } from '../../../services/api'
+import {
+  Generic,
+  Subject as SubjectType,
+  TimetableItemRelations,
+} from '../../../services/types'
+import Loader from '../../Loader'
 import SubjectItems from '../../timetable-item/SubjectItems'
 import { StyledPaper } from '../new-timetable-item'
 
-const TimetableItemSelecion = () => {
+const TimetableItemSelection = () => {
   const [degree, setDegree] = useState('')
   const [degrees, setDegrees] = useState<Generic[]>()
   const [subject, setSubject] = useState<SubjectType | null>(null)
   const [subjects, setSubjects] = useState<SubjectType[]>()
   const [semester, setSemester] = useState(true)
+
+  const [items, setItmes] = useState<TimetableItemRelations[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
+  const { userToken } = useAuth()
 
   useEffect(() => {
     ;(async () => {
@@ -39,6 +49,27 @@ const TimetableItemSelecion = () => {
     }
     setSubject(null)
   }, [degree, semester])
+
+  useEffect(() => {
+    if (subject) {
+      setLoading(true)
+      setTimeout(async () => {
+        if (userToken) {
+          try {
+            const items = await getTimetableItems(
+              subject?.id,
+              userToken,
+              semester,
+            )
+            setItmes(items)
+          } catch (error) {
+            setItmes([])
+          }
+        }
+        setLoading(false)
+      }, 500)
+    }
+  }, [subject, semester, userToken])
 
   return (
     <StyledPaper>
@@ -102,16 +133,24 @@ const TimetableItemSelecion = () => {
             <Switch
               disabled={!subjects}
               checked={semester}
-              onChange={() => setSemester(!semester)}
+              onChange={() => {
+                setSemester(!semester)
+                setSubject(null)
+              }}
             />
           </Box>
         </Box>
 
         <Box m={1} />
-        {subject && <SubjectItems semester={semester} subjectId={subject.id} />}
+        {subject &&
+          (loading ? (
+            <Loader alignItems="center" />
+          ) : (
+            <SubjectItems items={items} semester={semester} />
+          ))}
       </Box>
     </StyledPaper>
   )
 }
 
-export default TimetableItemSelecion
+export default TimetableItemSelection

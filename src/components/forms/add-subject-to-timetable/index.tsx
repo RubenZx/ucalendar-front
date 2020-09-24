@@ -7,41 +7,53 @@ import {
   Typography,
 } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
-import { getTimetableItems } from '../../../services/api'
+import { useHistory } from 'react-router-dom'
+import { useAuth } from '../../../context/auth'
+import { useUser } from '../../../context/user'
+import { addTimetableItem, getTimetableItems } from '../../../services/api'
 import {
   Subject as SubjectType,
   TimetableItemRelations,
 } from '../../../services/types'
 import { styled } from '../../../theme'
+import { cannotAdd } from '../../../utils/timetable-items-functions'
 import TimetableItem from '../../timetable-item'
+import Toast from '../../Toast'
 import { StyledPaper } from '../new-timetable-item'
 
 const StyledBox = styled(Box)`
   margin: 20px 0px;
 `
 
-const HoverableBox = styled(Box)`
+const HoverableBox = styled(Box)<{ hover?: string }>`
   :hover {
-    cursor: pointer;
+    cursor: ${({ hover }) => (hover === 'true' ? 'pointer' : 'not-allowed')};
   }
-  color: ${(props: { color: string }) => props.color}!important;
 `
 
 const AddItem = ({
   subjects,
   itemsAdded,
-  semester,
 }: {
   subjects: SubjectType[]
   itemsAdded: TimetableItemRelations[]
-  semester: boolean
 }) => {
-  const [selectedId, setSelectedId] = useState(0)
-  const [items, setItems] = useState<TimetableItemRelations[]>()
+  const history = useHistory()
+  const { userToken } = useAuth()
+  const { user, setTimetableItems } = useUser()
+  const uid = user?.uid
+
+  const [subjectId, setSubjectId] = useState(0)
   const [checkedItem, setCheckedItem] = useState<boolean[]>()
+  const [snackOpen, setSnackOpen] = useState(false)
+  const [snackMessage, setSnackMessage] = useState('')
+
+  const [items, setItems] = useState<TimetableItemRelations[]>()
+  const [selectedItems, setSelectecItems] = useState<TimetableItemRelations[]>()
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleChange = (event: any) => {
-    setSelectedId(event.target.value)
+    setSubjectId(event.target.value)
   }
 
   const handleSelect = (idk: number) => {
@@ -50,20 +62,39 @@ const AddItem = ({
         index === idk ? !item : item,
       )
       setCheckedItem([...newItems])
+      setSelectecItems(items?.filter((_item, idk) => newItems[idk]))
     }
   }
 
-  console.log(checkedItem)
+  const handleAdd = async () => {
+    let salir = false
+    if (userToken && uid && selectedItems) {
+      let i = 0
+      while (!salir && i < selectedItems.length) {
+        try {
+          await addTimetableItem(userToken, uid, selectedItems[i].id)
+          i += 1
+        } catch (e) {
+          salir = true
 
-  const handleAdd = () => {
-    console.log()
+          setSnackMessage(
+            e.response.data.statusCode === 403
+              ? 'Recurso no disponible'
+              : e.response.data.message,
+          )
+          setSnackOpen(true)
+        }
+      }
+      if (!salir) setTimetableItems(selectedItems)
+      setSnackOpen(true)
+    }
   }
 
   useEffect(() => {
     ;(async () => {
-      if (selectedId !== 0) {
+      if (subjectId !== 0 && userToken) {
         try {
-          const items = await getTimetableItems(selectedId.toString())
+          const items = await getTimetableItems(subjectId.toString(), userToken)
           // Quitamos los items que ya estén en nuestro horario
           setItems([
             ...items.filter(
@@ -77,8 +108,7 @@ const AddItem = ({
         }
       }
     })()
-    console.log('aaaah')
-  }, [selectedId, itemsAdded])
+  }, [subjectId, itemsAdded, userToken])
 
   return (
     <StyledPaper elevation={2}>
@@ -86,7 +116,7 @@ const AddItem = ({
         <Select
           displayEmpty
           fullWidth
-          value={selectedId}
+          value={subjectId}
           onChange={handleChange}
         >
           <MenuItem disabled value={0}>
@@ -104,26 +134,31 @@ const AddItem = ({
         <InputLabel style={{ marginBottom: '5px' }}>
           Seleccione los items a añadir:
         </InputLabel>
-        <Box display="flex">
-          {selectedId === 0 ? (
+        <Box display="flex" flexWrap="wrap">
+          {subjectId === 0 ? (
             <Typography style={{ fontStyle: 'italic', fontWeight: 'lighter' }}>
               No se ha seleccionado ninguna asignatura
             </Typography>
           ) : items && checkedItem && items.length > 0 ? (
-            items.map((item, idk) => (
-              <HoverableBox
-                color="#000"
-                key={idk}
-                onClick={() => handleSelect(idk)}
-              >
-                <TimetableItem
-                  timetableItem={item}
-                  showDay
-                  border={checkedItem[idk]}
-                  borderColor={itemsAdded.includes(item) ? 'red' : undefined}
-                />
-              </HoverableBox>
-            ))
+            items.map((item, idk) => {
+              const dontAdd = cannotAdd(itemsAdded, item)
+              return (
+                <HoverableBox
+                  hover={dontAdd ? 'false' : 'true'}
+                  key={idk}
+                  onClick={() => {
+                    !dontAdd && handleSelect(idk)
+                  }}
+                >
+                  <TimetableItem
+                    timetableItem={item}
+                    showDay
+                    border={checkedItem[idk]}
+                    borderColor={dontAdd ? '#f44336' : undefined}
+                  />
+                </HoverableBox>
+              )
+            })
           ) : (
             <Typography style={{ fontStyle: 'italic', fontWeight: 'lighter' }}>
               No hay items disponibles para la asignatura seleccionada...
@@ -133,10 +168,33 @@ const AddItem = ({
       </StyledBox>
 
       <Box display="flex" justifyContent="flex-end">
-        <Button type="submit" color="primary" onClick={handleAdd}>
+        <Button
+          type="submit"
+          color="primary"
+          onClick={() => {
+            setIsSubmitting(true)
+            handleAdd()
+          }}
+          disabled={!selectedItems || isSubmitting}
+        >
           Añadir items
         </Button>
       </Box>
+
+      <Toast
+        open={snackOpen}
+        onClose={() => {
+          setSnackOpen(false)
+          history.goBack()
+        }}
+        successMessage={
+          (selectedItems && selectedItems?.length > 1
+            ? 'Items añadidos'
+            : 'Item añadido') + ' con éxito...'
+        }
+        errorMessage={snackMessage + '...'}
+        status={snackMessage === '' ? 'success' : 'error'}
+      />
     </StyledPaper>
   )
 }

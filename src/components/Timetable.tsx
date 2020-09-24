@@ -74,16 +74,12 @@ function myReducer(
   }
 }
 
-function Timetable({
-  items,
-}: {
-  items: { timeTableItem: TimetableItemRelations }[]
-}) {
+function Timetable({ items }: { items: TimetableItemRelations[] }) {
   const [itemsByDay, dispatch] = useReducer(myReducer, { items: initialState })
 
   useEffect(() => {
     if (items) {
-      items.forEach(({ timeTableItem }) => {
+      items.forEach((timeTableItem) => {
         dispatch({ type: timeTableItem.dayOfTheWeek, payload: timeTableItem })
       })
     }

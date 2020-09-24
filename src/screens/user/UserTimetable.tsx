@@ -1,36 +1,27 @@
-import { Box, Button } from '@material-ui/core'
+import { Box, Button, CircularProgress } from '@material-ui/core'
 import RestorePageIcon from '@material-ui/icons/RestorePage'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import Timetable from '../../components/Timetable'
 import Title from '../../components/Title'
 import { useAuth } from '../../context/auth'
 import { useUser } from '../../context/user'
 import routes from '../../routes/routes'
-import { getTimetable } from '../../services/api'
-import { TimetableItemRelations } from '../../services/types'
+import { removeTimetable } from '../../services/api'
 
 const UserTimetable = () => {
-  const { userToken } = useAuth()
-  const { user } = useUser()
-
-  const uid = user?.uid
-
   const { location } = useHistory()
   const semester = location.pathname.includes('first')
 
-  const [timetableItems, setTimetableItems] = useState<
-    { timeTableItem: TimetableItemRelations }[]
-  >()
+  const { userToken } = useAuth()
+  const { user, timetableItems, removeTimetableItems } = useUser()
+  const uid = user?.uid
 
-  useEffect(() => {
-    if (userToken && uid) {
-      ;(async () => {
-        const timetable = await getTimetable(uid, semester, userToken)
-        setTimetableItems(timetable.timeTableItems)
-      })()
-    }
-  }, [userToken, uid, semester])
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [timetableItemsState, setTimetableItemsState] = useState(
+    timetableItems?.filter((item) => item.semester === semester),
+  )
+  const [loading, setLoading] = useState(false)
 
   return (
     <Box display="flex" flexDirection="column" flexGrow={1}>
@@ -42,19 +33,51 @@ const UserTimetable = () => {
         withButton={true}
         buttonType="add"
         to={semester ? routes.firstNewLesson.path : routes.secondNewLesson.path}
-        state={timetableItems}
+        state={timetableItemsState}
       />
-      <Timetable items={timetableItems || []} />
+      <Timetable items={timetableItemsState || []} />
       <Box display="flex" justifyContent="flex-end">
-        <Button
-          startIcon={<RestorePageIcon />}
-          variant="text"
-          color="primary"
-          onClick={() => {}}
-          style={{ marginTop: '25px' }}
-        >
-          Restablecer horario
-        </Button>
+        <Box display="flex" style={{ position: 'relative' }}>
+          <Button
+            startIcon={<RestorePageIcon />}
+            variant="text"
+            color="primary"
+            disabled={
+              loading || (timetableItemsState && timetableItemsState.length < 1)
+            }
+            onClick={async () => {
+              let error = false
+              if (userToken && uid) {
+                try {
+                  await removeTimetable(userToken, uid)
+                } catch (e) {
+                  error = true
+                }
+              }
+              if (!error) {
+                setLoading(true)
+                setTimeout(() => {
+                  setTimetableItemsState([])
+                  removeTimetableItems()
+                  setLoading(false)
+                }, 2000)
+              }
+            }}
+            style={{ marginTop: '25px' }}
+          >
+            Restablecer horario
+          </Button>
+          {loading && (
+            <CircularProgress
+              size={24}
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+              }}
+            />
+          )}
+        </Box>
       </Box>
     </Box>
   )

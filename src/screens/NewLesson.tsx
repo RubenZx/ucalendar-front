@@ -15,7 +15,7 @@ const NewLesson = () => {
 
   const uid = user?.uid
 
-  const { location } = useHistory<{ timeTableItem: TimetableItemRelations }[]>()
+  const { location } = useHistory<TimetableItemRelations[]>()
   const semester = location.pathname.includes('first')
 
   const [itemsAdded, setItemsAdded] = useState(location.state)
@@ -24,7 +24,7 @@ const NewLesson = () => {
   if (itemsAdded === undefined && userToken) {
     ;(async () => {
       const res = await getTimetable(uid, semester, userToken)
-      setItemsAdded(res.timeTableItems)
+      setItemsAdded(res)
     })()
   }
 
@@ -48,11 +48,7 @@ const NewLesson = () => {
         buttonType="back"
         to={routes.baseUrl.path}
       />
-      <AddItem
-        itemsAdded={itemsAdded.map((item) => item.timeTableItem)}
-        subjects={subjects}
-        semester={semester}
-      />
+      <AddItem itemsAdded={itemsAdded} subjects={subjects} />
     </Box>
   )
 }

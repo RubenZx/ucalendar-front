@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Redirect, useHistory } from 'react-router-dom'
-import EditItem from '../../components/forms/edit-timetable-item/EditItem'
+import EditItemById from '../../components/forms/edit-timetable-item'
 import Title from '../../components/Title'
+import { useAuth } from '../../context/auth'
 import routes from '../../routes/routes'
 import { getAll } from '../../services/api'
 import { Generic, TimetableItemRelations } from '../../services/types'
@@ -12,14 +13,19 @@ const EditSelectedItem = () => {
   const subjectName = item.subject.name.toLowerCase()
   const [degree, setDegree] = useState<Generic>()
 
+  const { userToken } = useAuth()
+
+  const subjectId = item.subjectId
   useEffect(() => {
-    ;(async () => {
-      try {
-        const res = await getAll(`subjects/${item.subjectId}`)
-        setDegree(res.degrees[0].degree)
-      } catch (error) {}
-    })()
-  }, [item.subjectId])
+    if (userToken) {
+      ;(async () => {
+        try {
+          const res = await getAll(`subjects/${subjectId}`, userToken)
+          setDegree(res.degrees[0].degree)
+        } catch (error) {}
+      })()
+    }
+  }, [subjectId, userToken])
 
   return (
     <>
@@ -32,7 +38,7 @@ const EditSelectedItem = () => {
               }, ${degree?.name}`}
               subtitle="Aquí puedes editar los campos del item seleccionado anteriormente"
             />
-            <EditItem degree={degree} {...item} />
+            <EditItemById degree={degree} {...item} />
           </>
         )
       ) : (
