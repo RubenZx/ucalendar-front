@@ -25,7 +25,7 @@ const StyledBox = styled(Box)`
   margin: 20px 0px;
 `
 
-const HoverableBox = styled(Box)<{ hover?: string }>`
+export const HoverableBox = styled(Box)<{ hover?: string }>`
   :hover {
     cursor: ${({ hover }) => (hover === 'true' ? 'pointer' : 'not-allowed')};
   }
