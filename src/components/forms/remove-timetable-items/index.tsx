@@ -128,8 +128,7 @@ const ItemsToRemove = ({ items }: ItemsToRemoveProps) => {
       </Box>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>
-          {selectedItems &&
-            `¿Seguro que desea eliminar los siguientes items de ${selectedItems[0].subject.abrev}?`}
+          ¿Seguro que desea eliminar los siguientes items?
         </DialogTitle>
         <DialogContent>
           {selectedItems?.map((item, idk) => (
