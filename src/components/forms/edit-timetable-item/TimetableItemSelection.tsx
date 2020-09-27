@@ -19,8 +19,9 @@ import {
 import Loader from '../../Loader'
 import SubjectItems from '../../timetable-item/SubjectItems'
 import { StyledPaper } from '../new-timetable-item'
+import ItemsToRemove from '../remove-timetable-items'
 
-const TimetableItemSelection = () => {
+const TimetableItemSelection = ({ edit }: { edit: boolean }) => {
   const [degree, setDegree] = useState('')
   const [degrees, setDegrees] = useState<Generic[]>()
   const [subject, setSubject] = useState<SubjectType | null>(null)
@@ -97,7 +98,7 @@ const TimetableItemSelection = () => {
         <Box display="flex">
           <Box display="flex" flexGrow={1} flexDirection="column">
             <InputLabel style={{ marginBottom: '5px' }}>
-              Seleccione una asignatura a modificar
+              Seleccione una asignatura
             </InputLabel>
             {subjects ? (
               <Autocomplete
@@ -141,8 +142,10 @@ const TimetableItemSelection = () => {
         {subject &&
           (loading ? (
             <Loader alignItems="center" />
-          ) : (
+          ) : edit ? (
             <SubjectItems items={items} semester={semester} />
+          ) : (
+            <ItemsToRemove items={items} />
           ))}
       </Box>
     </StyledPaper>

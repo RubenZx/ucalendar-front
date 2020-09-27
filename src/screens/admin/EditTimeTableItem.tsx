@@ -9,7 +9,7 @@ const editTimetableItem = () => {
         title="Editar un item existente"
         subtitle="Aquí puedes editar uno de los items de los horarios de la ESI que hayas creado con anterioridad"
       />
-      <TimetableItemSelection />
+      <TimetableItemSelection edit />
     </>
   )
 }

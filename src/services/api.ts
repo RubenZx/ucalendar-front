@@ -137,6 +137,14 @@ export const updateTimetableItem = async (
   return res.data
 }
 
+export const removeTimetableItem = async (id: number, token: string) => {
+  const res = await api.delete(`timetable-items/${id}`, {
+    headers: { Authorization: `bearer ${token}` },
+  })
+  console.log(res)
+  return res.data
+}
+
 export const getTimetableItemById = async (
   id: number,
   token: string,
