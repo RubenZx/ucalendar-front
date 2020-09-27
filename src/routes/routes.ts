@@ -1,6 +1,7 @@
 import AddTimetableItem from '../screens/admin/AddTimetableItem'
 import EditSelectedItem from '../screens/admin/EditSelectedItem'
-import editTimetableItem from '../screens/admin/EditTimetableItem'
+import editTimetableItem from '../screens/admin/EditTimeTableItem'
+import RemoveTimetableItem from '../screens/admin/RemoveTimetableItem'
 import Base from '../screens/Base'
 import NewLesson from '../screens/NewLesson'
 import Settings from '../screens/Settings'
@@ -22,6 +23,7 @@ interface RoutesType {
   newTimetableItem: RouteType
   modifyTimetableItem: RouteType
   editTimetableItem: RouteType
+  removeTimetableItem: RouteType
   settings: RouteType
 }
 
@@ -48,6 +50,12 @@ const routes: RoutesType = {
     Component: EditSelectedItem,
     name: 'Editar item',
     path: '/timetable/edit-item/:id',
+    roles: ['ADMINISTRATOR'],
+  },
+  removeTimetableItem: {
+    Component: RemoveTimetableItem,
+    name: 'Eliminar item',
+    path: '/timetable/remove-item',
     roles: ['ADMINISTRATOR'],
   },
   firstSemester: {
