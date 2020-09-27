@@ -1,6 +1,7 @@
 import { Box, InputLabel, Typography } from '@material-ui/core'
 import React from 'react'
 import { useHistory } from 'react-router-dom'
+import routes from '../../routes/routes'
 import { TimetableItemRelations } from '../../services/types'
 import { styled } from '../../theme'
 import TimetableItem from './index'
@@ -18,6 +19,7 @@ interface SubjectItemsProps {
 
 const SubjectItems = ({ items, semester }: SubjectItemsProps) => {
   const history = useHistory()
+
   return (
     <>
       {items.length > 0 ? (
@@ -33,7 +35,7 @@ const SubjectItems = ({ items, semester }: SubjectItemsProps) => {
                     key={idk}
                     onClick={() =>
                       history.push(
-                        history.location.pathname + '/' + item.id,
+                        routes.modifyTimetableItem.path + '/' + item.id,
                         item,
                       )
                     }

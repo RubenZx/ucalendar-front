@@ -105,11 +105,7 @@ const TimetableItemSelection = () => {
                 value={subject}
                 options={subjects}
                 onChange={(_event, value) => {
-                  if (value) {
-                    setSubject(value)
-                  } else {
-                    setSubject(null)
-                  }
+                  setSubject(value ? value : null)
                 }}
                 noOptionsText="No hay asignaturas"
                 getOptionLabel={(option) => option.name}

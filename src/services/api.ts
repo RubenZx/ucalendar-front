@@ -136,3 +136,13 @@ export const updateTimetableItem = async (
   })
   return res.data
 }
+
+export const getTimetableItemById = async (
+  id: number,
+  token: string,
+): Promise<TimetableItemRelations> => {
+  const res = await api.get(`timetable-items/${id}`, {
+    headers: { Authorization: `bearer ${token}` },
+  })
+  return res.data
+}

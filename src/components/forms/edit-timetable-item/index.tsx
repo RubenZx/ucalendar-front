@@ -38,13 +38,7 @@ const timetableItemUpdateValidationSchema = yup.object().shape({
   colorAbrev: yup.string().required('Por favor, seleccione un color'),
 })
 
-interface EditSelectedItemProps {
-  degree: Generic
-}
-
-const EditItemById = (
-  props: TimetableItemRelations & EditSelectedItemProps,
-) => {
+const EditItemById = (props: TimetableItemRelations) => {
   const [classRooms, setClassRooms] = useState<Generic[]>()
   const [selectedClass, setSelectedClass] = useState<number>()
   const [snackOpen, setSnackOpen] = useState<boolean>(false)
@@ -232,7 +226,12 @@ const EditItemById = (
       />
     </MuiPickersUtilsProvider>
   ) : (
-    <Loader alignItems="center" justifyContent="center" flexGrow={1} />
+    <Loader
+      alignItems="center"
+      justifyContent="center"
+      flexGrow={1}
+      height="50vh"
+    />
   )
 }
 
