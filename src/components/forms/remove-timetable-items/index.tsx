@@ -10,7 +10,7 @@ import {
   InputLabel,
   Typography,
 } from '@material-ui/core'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useAuth } from '../../../context/auth'
 import { removeTimetableItem } from '../../../services/api'
@@ -29,7 +29,7 @@ const ItemsToRemove = ({ items }: ItemsToRemoveProps) => {
   const [chosenItems, setChosenItems] = useState<boolean[]>(
     Array(items.length).fill(false),
   )
-  const [selectedItems, setSelectecItems] = useState<TimetableItemRelations[]>()
+  const [selectedItems, setSelectedItems] = useState<TimetableItemRelations[]>()
   const [checked, setChecked] = useState(false)
   const [open, setOpen] = useState(false)
   const [removing, setRemoving] = useState(false)
@@ -48,12 +48,13 @@ const ItemsToRemove = ({ items }: ItemsToRemoveProps) => {
       index === idk ? !item : item,
     )
     setChosenItems([...newItems])
-    setSelectecItems(items.filter((_item, idk) => newItems[idk]))
+    setSelectedItems(items.filter((_item, idk) => newItems[idk]))
   }
 
   const selectAll = () => {
     setChecked(!checked)
     setChosenItems(Array(items.length).fill(!checked))
+    setSelectedItems(!checked ? [...items] : [])
   }
 
   const handleRemove = () => {
@@ -76,6 +77,10 @@ const ItemsToRemove = ({ items }: ItemsToRemoveProps) => {
     setSnackOpen(false)
     history.go(0)
   }
+
+  useEffect(() => {
+    setChecked(selectedItems?.length === items.length)
+  }, [selectedItems, items])
 
   return (
     <>
