@@ -3,7 +3,6 @@ import CloseIcon from '@material-ui/icons/Close'
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { styled } from '../theme'
-
 const StyledBox = styled(Box)`
   margin-bottom: 25px;
 `
@@ -12,6 +11,38 @@ interface TitleProps {
   title: string
   subtitle: string
   withButton?: boolean
+  titleVariant?:
+    | 'button'
+    | 'caption'
+    | 'h1'
+    | 'h2'
+    | 'h3'
+    | 'h4'
+    | 'h5'
+    | 'h6'
+    | 'inherit'
+    | 'subtitle1'
+    | 'subtitle2'
+    | 'body1'
+    | 'body2'
+    | 'overline'
+    | 'srOnly'
+  subTitleVariant?:
+    | 'button'
+    | 'caption'
+    | 'h1'
+    | 'h2'
+    | 'h3'
+    | 'h4'
+    | 'h5'
+    | 'h6'
+    | 'inherit'
+    | 'subtitle1'
+    | 'subtitle2'
+    | 'body1'
+    | 'body2'
+    | 'overline'
+    | 'srOnly'
   buttonType?: 'add' | 'back'
   to?: string
   state?: any
@@ -19,6 +50,8 @@ interface TitleProps {
 
 const Title = ({
   title,
+  titleVariant = 'h6',
+  subTitleVariant = 'body1',
   subtitle,
   withButton,
   buttonType,
@@ -35,8 +68,8 @@ const Title = ({
       width="100%"
     >
       <Box>
-        <Typography variant="h6">{title}</Typography>
-        <Typography variant="body1">{subtitle}</Typography>
+        <Typography variant={titleVariant}>{title}</Typography>
+        <Typography variant={subTitleVariant}>{subtitle}</Typography>
       </Box>
       {withButton && to && (
         <Box display="flex" justifyContent="flex-end">
