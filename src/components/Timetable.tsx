@@ -114,9 +114,17 @@ function Timetable({ items }: { items: TimetableItemRelations[] }) {
                   alignItems="center"
                 >
                   <Typography variant="h6">{day}</Typography>
-                  {items.map((item, key) => (
-                    <TimetableItem key={key} timetableItem={item} />
-                  ))}
+                  {items
+                    .sort((a, b) => {
+                      const aStart = a.startHour.split(':')
+                      const bStart = b.startHour.split(':')
+                      const start1 = +aStart[0] * 3600 + +aStart[1] * 60
+                      const start2 = +bStart[0] * 3600 + +bStart[1] * 60
+                      return start1 - start2
+                    })
+                    .map((item, key) => (
+                      <TimetableItem key={key} timetableItem={item} />
+                    ))}
                 </StyledBox>
               ),
             )}
