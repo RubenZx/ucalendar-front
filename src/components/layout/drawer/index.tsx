@@ -14,9 +14,8 @@ import ListItemText from '@material-ui/core/ListItemText'
 import { ExpandLess, ExpandMore } from '@material-ui/icons'
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
-import SettingsIcon from '@material-ui/icons/Settings'
 import React, { useState } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Logo from '../../../assets/logo.gif'
 import { useAuth } from '../../../context/auth'
 import { useUser } from '../../../context/user'
@@ -38,13 +37,8 @@ const StyledDrawer = styled(Drawer)`
   flex-shrink: 0;
 `
 
-const CommonElements = [
-  { text: 'Ajustes', icon: <SettingsIcon />, path: '/settings' },
-]
-
 const MyDrawer = () => {
   const classes = useStyles()
-  const history = useHistory()
   const { signOut } = useAuth()
   const { user, removeUser } = useUser()
 
@@ -94,18 +88,6 @@ const MyDrawer = () => {
           </List>
         </Collapse>
 
-        {CommonElements.map(({ text, icon, path }) => (
-          <ListItem
-            button
-            key={text}
-            onClick={() => {
-              history.push(path)
-            }}
-          >
-            <ListItemIcon>{icon}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
         <ListItem
           button
           onClick={() => {

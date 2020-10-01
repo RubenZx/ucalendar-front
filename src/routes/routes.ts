@@ -4,7 +4,6 @@ import editTimetableItem from '../screens/admin/EditTimeTableItem'
 import RemoveTimetableItem from '../screens/admin/RemoveTimetableItem'
 import Base from '../screens/Base'
 import NewLesson from '../screens/NewLesson'
-import Settings from '../screens/Settings'
 import UserTimetable from '../screens/user/UserTimetable'
 
 export interface RouteType {
@@ -24,7 +23,6 @@ interface RoutesType {
   modifyTimetableItem: RouteType
   editTimetableItem: RouteType
   removeTimetableItem: RouteType
-  settings: RouteType
 }
 
 const routes: RoutesType = {
@@ -81,12 +79,6 @@ const routes: RoutesType = {
     name: 'Añadir asignatura',
     path: '/timetable/second-semester/add-lesson',
     roles: ['ALUMN', 'PROFESSOR'],
-  },
-  settings: {
-    Component: Settings,
-    name: 'Ajustes',
-    path: '/settings',
-    roles: ['ALL'],
   },
 }
 
