@@ -7,7 +7,7 @@ import {
   User,
 } from './types'
 
-export const api = axios.create({ baseURL: 'http://localhost:3000/' })
+export const api = axios.create({ baseURL: 'http://localhost/api/' })
 
 export const login = async (
   uid: string,
