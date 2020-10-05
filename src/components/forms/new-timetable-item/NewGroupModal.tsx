@@ -18,7 +18,7 @@ const Alert = (props: AlertProps) => {
 
 interface NewGroupModalProps {
   open: boolean
-  groups: Generic[] | undefined
+  groups: Generic[]
   setGroups: (groups: any) => void
   setOpen: (opt: boolean) => void
 }
@@ -53,17 +53,15 @@ const NewGroupModal = ({
           setError('')
           setDisabled(true)
           setMessage(`Grupo ${res.name} creado correctamente`)
-          if (groups) {
-            setGroups([...groups, res])
-          } else {
-            setGroups([res])
-          }
+          setGroups([...groups, res])
           setSnackOpen(true)
           setTimeout(() => {
-            setOpen(false)
+            setSnackOpen(false)
             setDisabled(false)
-          }, 3000)
+            setOpen(false)
+          }, 2000)
         } catch (error) {
+          setMessage('')
           setError(error.response.data.message)
           setSnackOpen(true)
         }
