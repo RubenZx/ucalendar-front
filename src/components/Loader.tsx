@@ -5,6 +5,6 @@ export default (props: BoxProps) => (
   <Box display="flex" {...props}>
     <CircularProgress />
     <Box m={1} />
-    <Typography>Cargando...</Typography>
+    <Typography>Cargando, por favor espere...</Typography>
   </Box>
 )

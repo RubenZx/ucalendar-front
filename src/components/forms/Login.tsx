@@ -11,7 +11,12 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import { Field, Formik } from 'formik'
 import { TextField } from 'formik-material-ui'
 import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import * as yup from 'yup'
+import { useAuth } from '../../context/auth'
+import { useUser } from '../../context/user'
+import routes from '../../routes/routes'
+import { getProfile, login } from '../../services/api'
 
 const validationSchema = yup.object().shape({
   user: yup.string().required('Usuario requerido'),
@@ -20,6 +25,11 @@ const validationSchema = yup.object().shape({
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false)
+  const [error, setError] = useState('')
+  const { signIn } = useAuth()
+  const { setUser, setTimetableItems } = useUser()
+
+  const history = useHistory()
 
   return (
     <Formik
@@ -27,7 +37,24 @@ const LoginForm = () => {
       validationSchema={validationSchema}
       validateOnBlur={false}
       validateOnChange={false}
-      onSubmit={(values) => console.log(values)}
+      onSubmit={async (values) => {
+        setError('')
+        try {
+          const res = await login(values.user, values.password)
+          signIn(res.access_token)
+          if (res.access_token) {
+            const { timetableItems, ...user } = await getProfile(
+              res.access_token,
+              values.user,
+            )
+            setTimetableItems(timetableItems)
+            setUser(user)
+          }
+          history.push(routes.baseUrl.path)
+        } catch (error) {
+          setError('Usuario o contraseña incorrectos')
+        }
+      }}
     >
       {({ submitForm, isSubmitting, errors }) => (
         <>
@@ -42,6 +69,7 @@ const LoginForm = () => {
               fullWidth
               error={errors.user !== undefined}
               helperText={errors.user}
+              style={{ marginBottom: error && '5pt' }}
             />
             <Box display="flex" alignItems="center">
               <Field
@@ -50,8 +78,8 @@ const LoginForm = () => {
                 name="password"
                 fullWidth
                 type={showPassword ? 'text' : 'password'}
-                error={errors.password !== undefined}
-                helperText={errors.password}
+                error={errors.password !== undefined || error !== ''}
+                helperText={errors.password || error}
               />
               <IconButton
                 onClick={(event) => {

@@ -1,5 +1,6 @@
 import {
   Box,
+  Collapse,
   createStyles,
   Drawer,
   List,
@@ -10,12 +11,18 @@ import Divider from '@material-ui/core/Divider'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
+import { ExpandLess, ExpandMore } from '@material-ui/icons'
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday'
-import SettingsIcon from '@material-ui/icons/Settings'
-import React from 'react'
-import { useHistory } from 'react-router-dom'
+import ExitToAppIcon from '@material-ui/icons/ExitToApp'
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import Logo from '../../../assets/logo.gif'
+import { useAuth } from '../../../context/auth'
+import { useUser } from '../../../context/user'
+import routes from '../../../routes/routes'
 import { styled } from '../../../theme'
+import AdminSections from './AdminSections'
+import UserSections from './UserSections'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -30,21 +37,12 @@ const StyledDrawer = styled(Drawer)`
   flex-shrink: 0;
 `
 
-const StyledImg = styled.img`
-  width: 150pt;
-  :hover {
-    cursor: pointer;
-  }
-`
-
-const MenuElements = [
-  { text: 'Horario', icon: <CalendarTodayIcon />, route: '/' },
-  { text: 'Ajustes', icon: <SettingsIcon />, route: '/settings' },
-]
-
 const MyDrawer = () => {
   const classes = useStyles()
-  const history = useHistory()
+  const { signOut } = useAuth()
+  const { user, removeUser } = useUser()
+
+  const [open, setOpen] = useState(false)
 
   return (
     <StyledDrawer
@@ -61,22 +59,45 @@ const MyDrawer = () => {
         minHeight="80px"
         style={{ marginTop: '10px' }}
       >
-        <StyledImg onClick={() => history.push('/')} src={Logo} alt="logoUCA" />
+        <Link to={routes.baseUrl.path}>
+          <img src={Logo} width="180pt" alt="logoUCA" />
+        </Link>
       </Box>
       <Divider />
+
       <List>
-        {MenuElements.map(({ text, icon, route }) => (
-          <ListItem
-            button
-            key={text}
-            onClick={() => {
-              history.push(route)
-            }}
-          >
-            <ListItemIcon>{icon}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
+        <ListItem
+          button
+          onClick={() => {
+            setOpen(!open)
+          }}
+        >
+          <ListItemIcon>
+            <CalendarTodayIcon />
+          </ListItemIcon>
+          <ListItemText primary="Horario" />
+          {open ? <ExpandLess /> : <ExpandMore />}
+        </ListItem>
+        <Collapse in={open} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            {user?.role === 'ADMINISTRATOR' ? (
+              <AdminSections />
+            ) : (
+              <UserSections />
+            )}
+          </List>
+        </Collapse>
+
+        <ListItem
+          button
+          onClick={() => {
+            signOut()
+            removeUser()
+          }}
+        >
+          <ListItemIcon>{<ExitToAppIcon />}</ListItemIcon>
+          <ListItemText primary="Salir" />
+        </ListItem>
       </List>
       <Divider />
     </StyledDrawer>

@@ -5,8 +5,9 @@ import {
   StylesProvider,
 } from '@material-ui/core'
 import React from 'react'
-import { BrowserRouter } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
+import { AuthProvider } from './context/auth'
+import { UserProvider } from './context/user'
 import Router from './routes'
 import theme from './theme'
 
@@ -20,9 +21,11 @@ const App = () => {
           <MuiThemeProvider theme={theme}>
             {/* Allow share the theme with styled components */}
             <ThemeProvider theme={theme}>
-              <BrowserRouter>
-                <Router />
-              </BrowserRouter>
+              <AuthProvider>
+                <UserProvider>
+                  <Router />
+                </UserProvider>
+              </AuthProvider>
             </ThemeProvider>
           </MuiThemeProvider>
         </StylesProvider>

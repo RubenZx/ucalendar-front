@@ -7,6 +7,14 @@ export interface Subject {
   id: string
   abrev: string
   name: string
+  semester: boolean
+}
+
+export interface User {
+  lastName: string
+  name: string
+  role: 'ALUMN' | 'ADMINISTRATOR' | 'PROFESSOR'
+  uid: string
 }
 
 export interface TimetableItem {
@@ -16,6 +24,7 @@ export interface TimetableItem {
   dayOfTheWeek: number
   endHour: string
   groupId: number
+  semester: boolean
   id: number
   startHour: string
   subjectId: number
@@ -23,13 +32,12 @@ export interface TimetableItem {
   weeks: boolean[]
 }
 
-export type UpdateTimetableItem = Partial<TimetableItem>
-
 export interface TimetableItemRelations {
   classRoom: Generic
   classRoomId: number
   group: Generic
   groupId: number
+  semester: boolean
   subject: Subject
   subjectId: number
   colorBg: string
@@ -41,3 +49,5 @@ export interface TimetableItemRelations {
   type: string
   weeks: boolean[]
 }
+
+export type UpdateTimetableItem = Partial<TimetableItem>

@@ -11,6 +11,7 @@ export const Error = styled(Typography)`
 `
 interface DegreeSelectProps {
   idDegree: string | undefined
+  semester: boolean
   error: string | undefined
   setSubjects: (subjects: Subject[]) => void
   setFieldValue: (
@@ -23,6 +24,7 @@ interface DegreeSelectProps {
 const DegreeSelect = ({
   error,
   idDegree,
+  semester,
   setSubjects,
   setFieldValue,
 }: DegreeSelectProps) => {
@@ -35,8 +37,22 @@ const DegreeSelect = ({
     })()
   }, [])
 
+  useEffect(() => {
+    if (idDegree) {
+      ;(async () => {
+        try {
+          const res = await getSubjects(idDegree, semester)
+          setSubjects(res)
+        } catch (e) {
+          setSubjects([])
+        }
+      })()
+      setFieldValue('subject', null)
+    }
+  }, [semester, idDegree, setSubjects, setFieldValue])
+
   return (
-    <Box marginBottom="20px">
+    <Box display="flex" flexDirection="column" flexGrow={1} marginBottom="20px">
       <InputLabel style={{ marginBottom: '5px' }}>
         Elija un grado o máster
       </InputLabel>
@@ -46,21 +62,12 @@ const DegreeSelect = ({
         component={Select}
         name="degree"
         label="Elija un grado"
-        onChange={async (event: any) => {
-          setFieldValue('degree', event.target.value)
-          const subjects = await getSubjects({ id: event.target.value })
-          setSubjects(subjects)
-        }}
-        onClick={async () => {
-          if (idDegree) {
-            const subjects = await getSubjects({ id: idDegree })
-            setSubjects(subjects)
-          }
-        }}
       >
         {degrees?.map((degree) => (
           <MenuItem value={degree.id} key={degree.id}>
-            {degree.name}
+            <Typography>
+              {degree.name} ({degree.id})
+            </Typography>
           </MenuItem>
         ))}
       </Field>

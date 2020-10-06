@@ -1,55 +1,84 @@
-import AddTimeTableItem from '../screens/admin/AddTimeTableItem'
+import AddTimetableItem from '../screens/admin/AddTimetableItem'
 import EditSelectedItem from '../screens/admin/EditSelectedItem'
-import EditTimeTableItem from '../screens/admin/EditTimeTableItem'
+import editTimetableItem from '../screens/admin/EditTimeTableItem'
+import RemoveTimetableItem from '../screens/admin/RemoveTimetableItem'
 import Base from '../screens/Base'
 import NewLesson from '../screens/NewLesson'
-import Settings from '../screens/Settings'
+import UserTimetable from '../screens/user/UserTimetable'
 
 export interface RouteType {
-  component: React.ReactNode
+  Component: React.ReactNode
   name: string
   path: string
+  roles: string[]
 }
 
 interface RoutesType {
   baseUrl: RouteType
-  newLesson: RouteType
-  newTimeTableItem: RouteType
-  modifyTimeTableItem: RouteType
-  editTimeTableItem: RouteType
-  settings: RouteType
+  firstNewLesson: RouteType
+  secondNewLesson: RouteType
+  firstSemester: RouteType
+  secondSemester: RouteType
+  newTimetableItem: RouteType
+  modifyTimetableItem: RouteType
+  editTimetableItem: RouteType
+  removeTimetableItem: RouteType
 }
 
 const routes: RoutesType = {
   baseUrl: {
-    component: Base,
+    Component: Base,
     name: 'Horario',
     path: '/',
+    roles: ['ALL'],
   },
-  newTimeTableItem: {
-    component: AddTimeTableItem,
+  newTimetableItem: {
+    Component: AddTimetableItem,
     name: 'Añadir item',
-    path: '/add-timetable-item',
+    path: '/timetable/add-item',
+    roles: ['ADMINISTRATOR'],
   },
-  modifyTimeTableItem: {
-    component: EditTimeTableItem,
+  modifyTimetableItem: {
+    Component: editTimetableItem,
     name: 'Modificar item',
-    path: '/edit-timetable-item',
+    path: '/timetable/edit-item',
+    roles: ['ADMINISTRATOR'],
   },
-  editTimeTableItem: {
-    component: EditSelectedItem,
+  editTimetableItem: {
+    Component: EditSelectedItem,
     name: 'Editar item',
-    path: '/edit-timetable-item/:id',
+    path: '/timetable/edit-item/:id',
+    roles: ['ADMINISTRATOR'],
   },
-  newLesson: {
-    component: NewLesson,
+  removeTimetableItem: {
+    Component: RemoveTimetableItem,
+    name: 'Eliminar item',
+    path: '/timetable/remove-item',
+    roles: ['ADMINISTRATOR'],
+  },
+  firstSemester: {
+    Component: UserTimetable,
+    name: 'Horario',
+    path: '/timetable/first-semester',
+    roles: ['ALUMN', 'PROFESSOR'],
+  },
+  secondSemester: {
+    Component: UserTimetable,
+    name: 'Horario',
+    path: '/timetable/second-semester',
+    roles: ['ALUMN', 'PROFESSOR'],
+  },
+  firstNewLesson: {
+    Component: NewLesson,
     name: 'Añadir asignatura',
-    path: '/add-lesson',
+    path: '/timetable/first-semester/add-lesson',
+    roles: ['ALUMN', 'PROFESSOR'],
   },
-  settings: {
-    component: Settings,
-    name: 'Ajustes',
-    path: '/settings',
+  secondNewLesson: {
+    Component: NewLesson,
+    name: 'Añadir asignatura',
+    path: '/timetable/second-semester/add-lesson',
+    roles: ['ALUMN', 'PROFESSOR'],
   },
 }
 

@@ -5,8 +5,8 @@ import MyDrawer from './drawer'
 
 const Container = styled(Grid)`
   flex-grow: 1;
-  margin-top: 90px;
-  padding: 10px 30px;
+  margin-top: 80px;
+  padding: 10px 80px;
 `
 
 const Root = styled.div`

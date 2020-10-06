@@ -31,11 +31,11 @@ const SubjectsSelect = ({
           component={Autocomplete}
           options={subjects}
           fullWidth
-          noOptionsText="No hay asignatura"
+          noOptionsText="No hay asignaturas"
           getOptionLabel={(option: Subject) => (option.name ? option.name : '')}
-          // getOptionSelected={(option: Subject, value: any) =>
-          //   value.id !== '' ? option.id === value.id : false
-          // }
+          getOptionSelected={(option: Subject, value: any) =>
+            value.id !== '' ? option.id === value.id : false
+          }
           renderInput={(params: AutocompleteRenderInputParams) => (
             <TextField {...params} error={error !== undefined} />
           )}

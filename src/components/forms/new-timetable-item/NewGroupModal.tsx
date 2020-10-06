@@ -8,6 +8,7 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import TextField from '@material-ui/core/TextField'
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert'
 import React, { useState } from 'react'
+import { useAuth } from '../../../context/auth'
 import { createGroup } from '../../../services/api'
 import { Generic } from '../../../services/types'
 
@@ -17,7 +18,7 @@ const Alert = (props: AlertProps) => {
 
 interface NewGroupModalProps {
   open: boolean
-  groups: Generic[] | undefined
+  groups: Generic[]
   setGroups: (groups: any) => void
   setOpen: (opt: boolean) => void
 }
@@ -34,6 +35,8 @@ const NewGroupModal = ({
   const [snackOpen, setSnackOpen] = useState<boolean>()
   const [disabled, setDisabled] = useState<boolean>(false)
 
+  const { userToken } = useAuth()
+
   const handleClose = () => {
     setName('')
     setError('')
@@ -42,28 +45,28 @@ const NewGroupModal = ({
   }
 
   const handleSubmit = () => {
-    ;(async () => {
-      try {
-        const res = await createGroup({ name: name.toUpperCase() })
-        setName('')
-        setError('')
-        setDisabled(true)
-        setMessage(`Grupo ${res.name} creado correctamente`)
-        if (groups) {
+    if (userToken) {
+      ;(async () => {
+        try {
+          const res = await createGroup(name.toUpperCase(), userToken)
+          setName('')
+          setError('')
+          setDisabled(true)
+          setMessage(`Grupo ${res.name} creado correctamente`)
           setGroups([...groups, res])
-        } else {
-          setGroups([res])
+          setSnackOpen(true)
+          setTimeout(() => {
+            setSnackOpen(false)
+            setDisabled(false)
+            setOpen(false)
+          }, 2000)
+        } catch (error) {
+          setMessage('')
+          setError(error.response.data.message)
+          setSnackOpen(true)
         }
-        setSnackOpen(true)
-        setTimeout(() => {
-          setOpen(false)
-          setDisabled(false)
-        }, 4000)
-      } catch (error) {
-        setError(error.response.data.message)
-        setSnackOpen(true)
-      }
-    })()
+      })()
+    }
   }
 
   return (

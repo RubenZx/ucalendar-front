@@ -1,30 +1,36 @@
 import React from 'react'
-import { Redirect, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
 import Layout from '../components/layout'
+import { useUser } from '../context/user'
 import Login from '../screens/Login'
+import PrivateRoute from './PrivateRoute'
 import routes from './routes'
 
-const DynamicRoutes = () => {
-  return (
-    <>
-      {Object.values(routes).map(({ component, path }) => (
-        <Route exact path={path} key={path} component={component} />
-      ))}
-    </>
-  )
-}
-
 const Router = () => {
+  const { user } = useUser()
+
   return (
-    <Switch>
-      <Route exact path="/login" component={Login}></Route>
-      <Layout>
-        <DynamicRoutes />
-      </Layout>
-      <Route path="*">
-        <Redirect to={routes.baseUrl.path} />
-      </Route>
-    </Switch>
+    <BrowserRouter>
+      <Switch>
+        {!user && <Route exact path="/login" component={Login} />}
+        {Object.values(routes).map(({ Component, path, roles }) => {
+          return (
+            <PrivateRoute exact path={path} key={path}>
+              {roles.includes(user?.role) || roles.includes('ALL') ? (
+                <Layout>
+                  <Component />
+                </Layout>
+              ) : (
+                <Redirect to="/" />
+              )}
+            </PrivateRoute>
+          )
+        })}
+        <Route>
+          <Redirect to={routes.baseUrl.path} />
+        </Route>
+      </Switch>
+    </BrowserRouter>
   )
 }
 

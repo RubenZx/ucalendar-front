@@ -1,7 +1,7 @@
-import { Box, CircularProgress, InputLabel } from '@material-ui/core'
-import React, { useEffect, useState } from 'react'
+import { Box, InputLabel, Typography } from '@material-ui/core'
+import React from 'react'
 import { useHistory } from 'react-router-dom'
-import { getTimetableItems } from '../../services/api'
+import routes from '../../routes/routes'
 import { TimetableItemRelations } from '../../services/types'
 import { styled } from '../../theme'
 import TimetableItem from './index'
@@ -11,52 +11,45 @@ const HoverBox = styled(Box)`
     cursor: pointer;
   }
 `
-const SubjectItems = ({ subjectId }: { subjectId: string }) => {
-  const [items, setItmes] = useState<TimetableItemRelations[]>()
-  const [loading, setLoading] = useState(true)
 
+interface SubjectItemsProps {
+  items: TimetableItemRelations[]
+  semester: boolean
+}
+
+const SubjectItems = ({ items, semester }: SubjectItemsProps) => {
   const history = useHistory()
-
-  useEffect(() => {
-    ;(async () => {
-      try {
-        const items = await getTimetableItems({ id: subjectId })
-        setItmes(items)
-      } catch (error) {
-        setItmes([])
-      }
-      setLoading(false)
-    })()
-  }, [subjectId])
 
   return (
     <>
-      {loading ? (
-        <Box display="flex" justifyContent="center">
-          <CircularProgress />
-        </Box>
-      ) : items && items.length > 0 ? (
+      {items.length > 0 ? (
         <>
           <InputLabel style={{ marginBottom: '5px' }}>
             Haga click en el item a editar
           </InputLabel>
           <Box display="flex" flexWrap="wrap" justifyContent="flex-start">
-            {items.map((item, idk) => (
-              <HoverBox
-                key={idk}
-                onClick={() =>
-                  history.push(history.location.pathname + '/' + item.id, item)
-                }
-              >
-                <TimetableItem {...item} />
-              </HoverBox>
-            ))}
+            {items.map(
+              (item, idk) =>
+                item.semester === semester && (
+                  <HoverBox
+                    key={idk}
+                    onClick={() =>
+                      history.push(
+                        routes.modifyTimetableItem.path + '/' + item.id,
+                        item,
+                      )
+                    }
+                  >
+                    <TimetableItem timetableItem={item} />
+                  </HoverBox>
+                ),
+            )}
           </Box>
         </>
       ) : (
-        <Box display="flex" justifyContent="center">
-          NOT FOUND
-        </Box>
+        <Typography style={{ fontStyle: 'italic', fontWeight: 'lighter' }}>
+          No hay items disponibles para la asignatura seleccionada...
+        </Typography>
       )}
     </>
   )

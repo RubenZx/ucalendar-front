@@ -12,6 +12,7 @@ import {
   AutocompleteRenderInputParams,
 } from 'formik-material-ui-lab'
 import React, { useEffect, useState } from 'react'
+import { useAuth } from '../../../context/auth'
 import { getAll } from '../../../services/api'
 import { Generic } from '../../../services/types'
 import { Error } from './DegreeSelect'
@@ -27,12 +28,16 @@ const GroupsSelect = ({
   const [groups, setGroups] = useState<Generic[]>([])
   const [open, setOpen] = useState(false)
 
+  const { userToken } = useAuth()
+
   useEffect(() => {
-    ;(async () => {
-      const groups = await getAll('groups/')
-      setGroups(groups)
-    })()
-  }, [])
+    if (userToken) {
+      ;(async () => {
+        const groups = await getAll('groups/', userToken)
+        setGroups(groups)
+      })()
+    }
+  }, [userToken])
 
   return (
     <Box display="flex" flexGrow={1} flexDirection="column">
