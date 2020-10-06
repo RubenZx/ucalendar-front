@@ -27,11 +27,11 @@ const CardLink = ({ title, subTitle, icon, to }: CardLinkProps) => {
             justifyContent="space-between"
             alignItems="center"
           >
-            <Typography variant="h4" component="h2">
+            <Typography variant="h5" component="h2">
               {title}
             </Typography>
             <Box m={1} />
-            <img src={icon} alt="" height="80px" />
+            <img src={icon} alt="" height="50px" />
           </Box>
           <Typography variant="body2" color="textSecondary" component="p">
             {subTitle}
