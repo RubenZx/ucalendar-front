@@ -22,6 +22,7 @@ import { useUser } from '../../../context/user'
 import routes from '../../../routes/routes'
 import { styled } from '../../../theme'
 import AdminSections from './AdminSections'
+import ProfAndAdminSections from './ProfAndAdminSections'
 import UserSections from './UserSections'
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -87,6 +88,8 @@ const MyDrawer = () => {
             )}
           </List>
         </Collapse>
+
+        {user?.role !== 'ALUMN' && <ProfAndAdminSections />}
 
         <ListItem
           button
