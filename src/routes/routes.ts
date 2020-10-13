@@ -3,7 +3,7 @@ import EditSelectedItem from '../screens/admin/EditSelectedItem'
 import editTimetableItem from '../screens/admin/EditTimeTableItem'
 import RemoveTimetableItem from '../screens/admin/RemoveTimetableItem'
 import Base from '../screens/Base'
-import Messages from '../screens/Messages'
+import MessagesView from '../screens/MessagesView'
 import NewLesson from '../screens/NewLesson'
 import UserTimetable from '../screens/user/UserTimetable'
 
@@ -35,7 +35,7 @@ const routes: RoutesType = {
     roles: ['ALL'],
   },
   messages: {
-    Component: Messages,
+    Component: MessagesView,
     name: 'Mensajes',
     path: '/messages',
     roles: ['ADMINISTRATOR', 'PROFESSOR'],
