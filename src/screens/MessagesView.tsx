@@ -48,7 +48,7 @@ const MessagesView = () => {
         setUsers(res)
       }
     })()
-  }, [userToken, uid])
+  }, [userToken, uid, messages])
 
   return (
     <>
@@ -62,24 +62,28 @@ const MessagesView = () => {
       />
       <StyledPaper>
         <Box display="flex">
-          <StyledList>
-            {users.map((user, index) => {
-              return (
-                <ListItem
-                  button
-                  key={index}
-                  onClick={() => {
-                    fetchMessages(user.uid)
-                  }}
-                >
-                  <ListItemText primary={`${user.name} ${user.lastName}`} />
-                </ListItem>
-              )
-            })}
-          </StyledList>
-          <Box m={1} />
-          <Divider orientation="vertical" flexItem />
-          <Box m={1} />
+          {users.length > 0 && (
+            <>
+              <StyledList>
+                {users.map((user, index) => {
+                  return (
+                    <ListItem
+                      button
+                      key={index}
+                      onClick={() => {
+                        fetchMessages(user.uid)
+                      }}
+                    >
+                      <ListItemText primary={`${user.name} ${user.lastName}`} />
+                    </ListItem>
+                  )
+                })}
+              </StyledList>
+              <Box m={1} />
+              <Divider orientation="vertical" flexItem />
+              <Box m={1} />
+            </>
+          )}
           {messages.length < 1 ? (
             <NoMessagesText />
           ) : (
