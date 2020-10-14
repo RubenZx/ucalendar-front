@@ -17,6 +17,21 @@ export interface User {
   uid: string
 }
 
+export interface Message {
+  content: string
+  id: number
+  sentDate: string
+  sentFrom: SentFrom
+  sentFromUid: string
+  sentToUid: string
+}
+
+export interface SentFrom {
+  lastName: string
+  name: string
+  uid: string
+}
+
 export interface TimetableItem {
   classRoomId: number
   colorAbrev: string

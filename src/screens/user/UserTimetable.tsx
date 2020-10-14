@@ -10,14 +10,13 @@ import routes from '../../routes/routes'
 import { removeTimetable } from '../../services/api'
 
 const UserTimetable = () => {
-  const { location } = useHistory()
-  const semester = location.pathname.includes('first')
+  const history = useHistory()
+  const semester = history.location.pathname.includes('first')
 
   const { userToken } = useAuth()
   const { user, timetableItems, removeTimetableItems } = useUser()
   const uid = user?.uid
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [timetableItemsState, setTimetableItemsState] = useState(
     timetableItems?.filter((item) => item.semester === semester),
   )
@@ -32,8 +31,13 @@ const UserTimetable = () => {
         subtitle="Aquí puedes crear y planificar tu horario semanal"
         withButton={true}
         buttonType="add"
-        to={semester ? routes.firstNewLesson.path : routes.secondNewLesson.path}
-        state={timetableItemsState}
+        buttonText="Añadir nueva asignatura"
+        onClick={() =>
+          history.push(
+            semester ? routes.firstNewLesson.path : routes.secondNewLesson.path,
+            timetableItemsState,
+          )
+        }
       />
       <Timetable items={timetableItemsState || []} />
       <Box display="flex" justifyContent="flex-end">

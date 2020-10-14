@@ -15,10 +15,10 @@ const NewLesson = () => {
 
   const uid = user?.uid
 
-  const { location } = useHistory<TimetableItemRelations[]>()
-  const semester = location.pathname.includes('first')
+  const history = useHistory<TimetableItemRelations[]>()
+  const semester = history.location.pathname.includes('first')
 
-  const [itemsAdded, setItemsAdded] = useState(location.state)
+  const [itemsAdded, setItemsAdded] = useState(history.location.state)
   const [subjects, setSubjects] = useState<Subject[]>([])
 
   if (itemsAdded === undefined && userToken) {
@@ -46,7 +46,7 @@ const NewLesson = () => {
         subtitle="Aquí puedes añadir una asignatura a tu horario semanal"
         withButton={true}
         buttonType="back"
-        to={routes.baseUrl.path}
+        onClick={() => history.push(routes.baseUrl.path)}
       />
       <AddItem itemsAdded={itemsAdded} subjects={subjects} />
     </Box>

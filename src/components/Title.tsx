@@ -11,6 +11,7 @@ interface TitleProps {
   title: string
   subtitle: string
   withButton?: boolean
+  buttonText?: string
   titleVariant?:
     | 'button'
     | 'caption'
@@ -44,8 +45,7 @@ interface TitleProps {
     | 'overline'
     | 'srOnly'
   buttonType?: 'add' | 'back'
-  to?: string
-  state?: any
+  onClick?: () => void
 }
 
 const Title = ({
@@ -53,10 +53,10 @@ const Title = ({
   titleVariant = 'h6',
   subTitleVariant = 'body1',
   subtitle,
+  buttonText,
   withButton,
   buttonType,
-  to,
-  state,
+  onClick,
 }: TitleProps) => {
   const history = useHistory()
 
@@ -71,16 +71,12 @@ const Title = ({
         <Typography variant={titleVariant}>{title}</Typography>
         <Typography variant={subTitleVariant}>{subtitle}</Typography>
       </Box>
-      {withButton && to && (
+      {withButton && (
         <Box display="flex" justifyContent="flex-end">
           {/* Will be disabled when you have take all of your subjects */}
           {buttonType === 'add' ? (
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => history.push(to, state)}
-            >
-              Añadir nueva asignatura
+            <Button variant="contained" color="primary" onClick={onClick}>
+              {buttonText}
             </Button>
           ) : (
             <IconButton onClick={() => history.goBack()}>

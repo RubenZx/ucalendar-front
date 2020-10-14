@@ -7,7 +7,8 @@ import {
   User,
 } from './types'
 
-export const api = axios.create({ baseURL: 'http://localhost/api/' })
+// Change the baseURL to the 3000 port to dev or to localhost/api/ to prod
+export const api = axios.create({ baseURL: 'http://localhost:3000/' })
 
 export const login = async (
   uid: string,
@@ -141,7 +142,6 @@ export const removeTimetableItem = async (id: number, token: string) => {
   const res = await api.delete(`timetable-items/${id}`, {
     headers: { Authorization: `bearer ${token}` },
   })
-  console.log(res)
   return res.data
 }
 
@@ -150,6 +150,31 @@ export const getTimetableItemById = async (
   token: string,
 ): Promise<TimetableItemRelations> => {
   const res = await api.get(`timetable-items/${id}`, {
+    headers: { Authorization: `bearer ${token}` },
+  })
+  return res.data
+}
+
+export const sendMessage = async (
+  data: {
+    sentToUid: string
+    sentFromUid: string
+    content: string
+  },
+  token: string,
+): Promise<any> => {
+  const res = await api.post('messages', data, {
+    headers: { Authorization: `bearer ${token}` },
+  })
+  return res.data
+}
+
+export const getMessages = async (
+  id: string,
+  idFrom: string,
+  token: string,
+): Promise<any> => {
+  const res = await api.get(`users/${id}/messages/${idFrom}`, {
     headers: { Authorization: `bearer ${token}` },
   })
   return res.data

@@ -3,6 +3,7 @@ import EditSelectedItem from '../screens/admin/EditSelectedItem'
 import editTimetableItem from '../screens/admin/EditTimeTableItem'
 import RemoveTimetableItem from '../screens/admin/RemoveTimetableItem'
 import Base from '../screens/Base'
+import MessagesView from '../screens/MessagesView'
 import NewLesson from '../screens/NewLesson'
 import UserTimetable from '../screens/user/UserTimetable'
 
@@ -15,6 +16,7 @@ export interface RouteType {
 
 interface RoutesType {
   baseUrl: RouteType
+  messages: RouteType
   firstNewLesson: RouteType
   secondNewLesson: RouteType
   firstSemester: RouteType
@@ -31,6 +33,12 @@ const routes: RoutesType = {
     name: 'Horario',
     path: '/',
     roles: ['ALL'],
+  },
+  messages: {
+    Component: MessagesView,
+    name: 'Mensajes',
+    path: '/messages',
+    roles: ['ADMINISTRATOR', 'PROFESSOR'],
   },
   newTimetableItem: {
     Component: AddTimetableItem,
