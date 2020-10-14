@@ -54,7 +54,7 @@ const MessagesView = () => {
     <>
       <Title
         title="Mensajes"
-        subtitle="Aquí se puedes ver y enviar mensajes"
+        subtitle="Aquí se pueden ver y enviar mensajes"
         withButton
         buttonType="add"
         buttonText="Nuevo mensaje"
