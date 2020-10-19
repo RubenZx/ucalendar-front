@@ -76,6 +76,7 @@ const Messages = ({
           fullWidth
           value={newMessage}
           multiline
+          placeholder="Nuevo mensaje..."
           rowsMax={2}
           onChange={(event) => {
             const text = event.target.value
