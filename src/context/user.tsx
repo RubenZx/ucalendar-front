@@ -11,7 +11,7 @@ type UserContextType = {
   setUser: (user: User) => void
   setTimetableItems: (items: TimetableItemRelations[]) => void
   removeUser: () => void
-  removeTimetableItems: () => void
+  removeTimetableItems: (semester: boolean) => void
   isLoading: boolean
   user: (User & TimetableItemRelations[]) | null | undefined
 }
@@ -42,7 +42,7 @@ const userReducer = (
       return { ...prevState, user: action.payload }
     }
     case 'REMOVE_ITEMS': {
-      return { ...prevState, timetableItems: [] }
+      return { ...prevState, timetableItems: [...action.payload] }
     }
     default: {
       return prevState
@@ -97,9 +97,22 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
           payload: undefined,
         })
       },
-      removeTimetableItems: () => {
+      removeTimetableItems: (semester: boolean) => {
+        let prevItems
+        try {
+          prevItems = localStorage.getItem('timetableItems')
+          if (prevItems) {
+            prevItems = JSON.parse(prevItems) as TimetableItemRelations[]
+            prevItems = prevItems.filter((item) => item.semester !== semester)
+          }
+        } catch {
+          prevItems = null
+        }
+
         localStorage.removeItem('timetableItems')
-        dispatch({ type: 'REMOVE_ITEMS', payload: undefined })
+        localStorage.setItem('timetableItems', JSON.stringify(prevItems))
+
+        dispatch({ type: 'REMOVE_ITEMS', payload: prevItems })
       },
       isLoading: state.isLoading,
       user: state.user,

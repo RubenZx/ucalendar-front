@@ -53,8 +53,12 @@ export const addTimetableItem = async (
   return res.data
 }
 
-export const removeTimetable = async (token: string, uid: string) => {
-  const res = await api.delete(`users/${uid}/timetable-items`, {
+export const removeTimetable = async (
+  token: string,
+  uid: string,
+  semester: boolean,
+) => {
+  const res = await api.delete(`users/${uid}/timetable-items/${semester}`, {
     headers: { Authorization: `bearer ${token}` },
   })
   return res.data

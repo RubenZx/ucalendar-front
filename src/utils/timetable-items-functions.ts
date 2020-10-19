@@ -8,7 +8,7 @@ export const cannotAdd = (
   const res = prevItems.map(
     (item) =>
       item.dayOfTheWeek === newItem.dayOfTheWeek &&
-      !(newItem.startHour > item.endHour || newItem.endHour < item.startHour),
+      !(newItem.startHour >= item.endHour || newItem.endHour <= item.startHour),
   )
   return res.some((item) => item === true)
 }
