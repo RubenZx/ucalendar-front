@@ -8,11 +8,12 @@ import {
   DialogContentText,
   DialogTitle,
   InputLabel,
-  Typography,
+  Typography
 } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useAuth } from '../../../context/auth'
+import routes from '../../../routes/routes'
 import { removeTimetableItem } from '../../../services/api'
 import { TimetableItemRelations } from '../../../services/types'
 import TimetableItem from '../../timetable-item'
@@ -75,7 +76,7 @@ const ItemsToRemove = ({ items }: ItemsToRemoveProps) => {
 
   const toastClose = () => {
     setSnackOpen(false)
-    history.go(0)
+    history.push(routes.baseUrl.path)
   }
 
   useEffect(() => {

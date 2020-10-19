@@ -53,7 +53,7 @@ const UserTimetable = () => {
               let error = false
               if (userToken && uid) {
                 try {
-                  await removeTimetable(userToken, uid)
+                  await removeTimetable(userToken, uid, semester)
                 } catch (e) {
                   error = true
                 }
@@ -62,7 +62,7 @@ const UserTimetable = () => {
                 setLoading(true)
                 setTimeout(() => {
                   setTimetableItemsState([])
-                  removeTimetableItems()
+                  removeTimetableItems(semester)
                   setLoading(false)
                 }, 2000)
               }
