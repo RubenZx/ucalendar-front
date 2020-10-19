@@ -10,6 +10,7 @@ import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useAuth } from '../../../context/auth'
 import { useUser } from '../../../context/user'
+import routes from '../../../routes/routes'
 import { addTimetableItem, getTimetableItems } from '../../../services/api'
 import {
   Subject as SubjectType,
@@ -185,7 +186,11 @@ const AddItem = ({
         open={snackOpen}
         onClose={() => {
           setSnackOpen(false)
-          history.goBack()
+          history.push(
+            history.location.pathname.includes('first')
+              ? routes.firstSemester.path
+              : routes.secondSemester.path,
+          )
         }}
         successMessage={
           (selectedItems && selectedItems?.length > 1
