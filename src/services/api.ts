@@ -8,7 +8,7 @@ import {
 } from './types'
 
 // Change the baseURL to the 3000 port to dev or to localhost/api/ to prod
-export const api = axios.create({ baseURL: 'http://localhost:3000/' })
+export const api = axios.create({ baseURL: 'http://localhost/api/' })
 
 export const login = async (
   uid: string,
