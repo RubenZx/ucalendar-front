@@ -110,13 +110,10 @@ export const createGroup = async (name: string, token: string) => {
 export const getTimetableItems = async (
   id: string,
   token: string,
-  semester?: boolean,
 ): Promise<TimetableItemRelations[]> => {
-  const res = await api.get(
-    `subjects/${id}/timetable-items` +
-      (semester !== undefined ? `?semester=${semester}` : ''),
-    { headers: { Authorization: `bearer ${token}` } },
-  )
+  const res = await api.get(`subjects/${id}/timetable-items`, {
+    headers: { Authorization: `bearer ${token}` },
+  })
   return res.data
 }
 

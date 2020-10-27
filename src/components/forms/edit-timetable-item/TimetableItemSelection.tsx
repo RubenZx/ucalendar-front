@@ -57,11 +57,7 @@ const TimetableItemSelection = ({ edit }: { edit: boolean }) => {
       setTimeout(async () => {
         if (userToken) {
           try {
-            const items = await getTimetableItems(
-              subject?.id,
-              userToken,
-              semester,
-            )
+            const items = await getTimetableItems(subject?.id, userToken)
             setItmes(items)
           } catch (error) {
             setItmes([])
